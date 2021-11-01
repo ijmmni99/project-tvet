@@ -1,6 +1,6 @@
-# ProjectTvet
+# Project Tvet
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.5.
+Improving Students' Learning Motivation on Computational Database Subject Using Gamification Elements.
 
 ## Development server
 
