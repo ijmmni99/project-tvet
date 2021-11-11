@@ -94,7 +94,7 @@ export class AuthService {
     // Get the user from Graph (GET /me)
     const graphUser: MicrosoftGraph.User = await graphClient
       .api('/me')
-      .select('displayName,mail,mailboxSettings,userPrincipalName')
+      .select('displayName')
       .get();
   
     const user = new User();

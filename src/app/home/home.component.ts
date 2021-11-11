@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user';
+import { GraphService } from '../services/graph.service';
+import { Users } from '../models/users';
+import { Collection } from 'ngx-pagination/dist/paginate.pipe';
 
 @Component({
   selector: 'app-home',
@@ -93,11 +97,11 @@ export class HomeComponent implements OnInit {
     ];
 
     channels = [
-      { code: "BITP 2314", title: "HCI", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Maslina'},
-      { code: "BITP 2444", title: "DB", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Rohazah'},
-      { code: "BITP 3456", title: "Multimedia", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Kamsah'},
-      { code: "BITP 3122", title: "Programming", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Azlina'},
-      { code: "BITP 3122", title: "Programming", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Azlina'},
+      { code: "BITP 2314", title: "HCI", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Maslina', teamid: 'deb44936-3f8a-4d8b-b46d-8bb96da7ec36'},
+      { code: "BITP 2444", title: "DB", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Rohazah', teamid: 'deb44936-3f8a-4d8b-b46d-8bb96da7ec36'},
+      { code: "BITP 3456", title: "Multimedia", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Kamsah', teamid: 'deb44936-3f8a-4d8b-b46d-8bb96da7ec36'},
+      { code: "BITP 3122", title: "Programming", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Azlina', teamid: 'deb44936-3f8a-4d8b-b46d-8bb96da7ec36'},
+      { code: "BITP 3122", title: "Programming", img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png', lecturer: 'Pn. Azlina', teamid: 'deb44936-3f8a-4d8b-b46d-8bb96da7ec36'},
     ]
 
     class = "BITP 2314"
@@ -111,7 +115,9 @@ export class HomeComponent implements OnInit {
     return this.authService.user;
   }
 
-  constructor(private authService: AuthService) { 
+  chats: Array<Users> = [];
+
+  constructor(private authService: AuthService, private graphService: GraphService) { 
     
   }
 
@@ -135,11 +141,13 @@ export class HomeComponent implements OnInit {
     this.authService.signOut();
   }
 
-  directChannel() {
+  directChannel(id: any) {
     this.loading = true;
-    setTimeout(() => {
+
+    this.graphService.getListChannel(id).then((data: Array<Users>) => {
+      this.chats = data;
       this.loading = false;
       this.channelChoose = true;
-    }, 1000);
+    })
   }
 }

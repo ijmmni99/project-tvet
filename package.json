@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "all": "ng build --prod && zip -r dist/project-tvet.zip dist/project-tvet",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

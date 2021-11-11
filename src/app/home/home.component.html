@@ -5,7 +5,7 @@
     <div *ngIf="authenticated; then welcomeUser else signInPrompt"></div>
     <ng-template #welcomeUser>
       <div>
-        <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="signIn()">Profile</button>
+        <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
         <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>
       </div>     
     </ng-template>
@@ -18,7 +18,7 @@
 
   <div class="l-grid-col" *ngIf="!channelChoose && !loading">
     <div class="animatezoom l-grid-child" *ngFor="let c of channels">
-      <div class="c-card" (click)="directChannel()">
+      <div class="c-card" (click)="directChannel(c.teamid)">
         <div class="c-card__body">
           <div class="u-text--center" id="winner">
             <div class="u-text-small u-text--medium u-mb--16">{{c.code}}</div>
@@ -91,37 +91,37 @@
                 <div class="u-text--right u-text--small u-text--medium"># of Points</div>
               </div>
             </li>
-            <li class="c-list__item" *ngFor="let member of students | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page}">
+            <li class="c-list__item" *ngFor="let member of chats | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfelement=index;">
               <div class="c-list__grid">
-                <div *ngIf="member.rank == 1" class="c-flag c-place u-text--dark u-bg--yellow u-bg--transparent">{{member.rank}}</div>
-                <div *ngIf="member.rank == 2" class="c-flag c-place u-text--dark u-bg--teal u-bg--transparent">{{member.rank}}</div>
-                <div *ngIf="member.rank == 3" class="c-flag c-place u-text--dark u-bg--orange u-bg--transparent">{{member.rank}}</div>
-                <div *ngIf="member.rank != 1 && member.rank != 2 && member.rank != 3" class="c-flag c-place u-bg--transparent">{{member.rank}}</div>
+                <div *ngIf="indexOfelement+1 == 1" class="c-flag c-place u-text--dark u-bg--yellow u-bg--transparent">{{indexOfelement+1}}</div>
+                <div *ngIf="indexOfelement+1 == 2" class="c-flag c-place u-text--dark u-bg--teal u-bg--transparent">{{indexOfelement+1}}</div>
+                <div *ngIf="indexOfelement+1 == 3" class="c-flag c-place u-text--dark u-bg--orange u-bg--transparent">{{indexOfelement+1}}</div>
+                <div *ngIf="indexOfelement+1 != 1 && indexOfelement+1 != 2 && indexOfelement+1 != 3" class="c-flag c-place u-bg--transparent">{{indexOfelement+1}}</div>
                 <div class="c-media">
-                  <img class="c-avatar c-media__img" [src]="member.img" />
+                  <img class="c-avatar c-media__img" src="../../assets/no-profile-photo.png" />
                   <div class="c-media__content">
                     <div class="c-media__title">{{member.name}}</div>
-                    <a class="c-media__link u-text--small" target="_blank">{{member.handle}}</a>
+                    <a class="c-media__link u-text--small" target="_blank">{{member.name}}</a>
                   </div>
                 </div>
-                <div *ngIf="member.rank == 1" class="u-text--right c-kudos u-text--yellow">
+                <div *ngIf="indexOfelement+1 == 1" class="u-text--right c-kudos u-text--yellow">
                   <div class="u-mt--8">
-                    <strong>{{member.kudos}}</strong>
+                    <strong>{{member.messageCount}}</strong>
                   </div>
                 </div>
-                <div *ngIf="member.rank == 2" class="u-text--right c-kudos u-text--teal">
+                <div *ngIf="indexOfelement+1 == 2" class="u-text--right c-kudos u-text--teal">
                   <div class="u-mt--8">
-                    <strong>{{member.kudos}}</strong>
+                    <strong>{{member.messageCount}}</strong>
                   </div>
                 </div>
-                <div *ngIf="member.rank == 3" class="u-text--right c-kudos u-text--orange">
+                <div *ngIf="indexOfelement+1 == 3" class="u-text--right c-kudos u-text--orange">
                   <div class="u-mt--8">
-                    <strong>{{member.kudos}}</strong>
+                    <strong>{{member.messageCount}}</strong>
                   </div>
                 </div>
-                <div *ngIf="member.rank != 1 && member.rank != 2 && member.rank != 3" class="u-text--right c-kudos">
+                <div *ngIf="indexOfelement+1 != 1 && indexOfelement+1 != 2 && indexOfelement+1 != 3" class="u-text--right c-kudos">
                   <div class="u-mt--8">
-                    <strong>{{member.kudos}}</strong>
+                    <strong>{{member.messageCount}}</strong>
                   </div>
                 </div>
               </div>

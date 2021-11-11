@@ -4,6 +4,7 @@ import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 
 import { AuthService } from '../services/auth.service';
 import { AlertsService } from '../services/alerts.service';
+import { Users } from '../models/users';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { AlertsService } from '../services/alerts.service';
 
 export class GraphService {
 
+  
   private graphClient: Client;
   constructor(
     private authService: AuthService,
@@ -37,10 +39,6 @@ export class GraphService {
 
   async getCalendarView(start: string, end: string, timeZone: string): Promise<MicrosoftGraph.Event[] | undefined> {
     try {
-      // GET /me/calendarview?startDateTime=''&endDateTime=''
-      // &$select=subject,organizer,start,end
-      // &$orderby=start/dateTime
-      // &$top=50
       const result =  await this.graphClient
         .api('/me/calendarview')
         .header('Prefer', `outlook.timezone="${timeZone}"`)
@@ -81,5 +79,45 @@ export class GraphService {
     } catch (error) {
       this.alertsService.addError('Could not get Photo', JSON.stringify(error, null, 2));
     }
+  }
+
+  async getListChannel(id: any){
+
+    let chats: Array<Users> = [];
+    
+    try {
+      const result = await this.graphClient
+        .api(`/teams/${id}/channels`)
+        .get();
+        
+      const result2 = await this.graphClient
+        .api(`/teams/${id}/channels/${result.value[2].id}/messages`)
+        .get();
+
+      let data: Array<MicrosoftGraph.ChatMessage> = result2.value;
+      
+
+      data.forEach((element: MicrosoftGraph.ChatMessage) => {
+            if(!chats.find(x => x.id == element.from?.user?.id)){
+                chats.push({
+                id: element.from?.user?.id,
+                name: element.from?.user?.displayName,
+                messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length
+            });
+          }
+      });
+
+        
+      chats = chats.sort((a, b) => b.messageCount - a.messageCount);
+      
+      return chats;
+
+    } catch (error) {
+
+      this.alertsService.addError('Could not get List Channel', JSON.stringify(error, null, 2));
+
+    }
+    
+    return chats;
   }
 }
