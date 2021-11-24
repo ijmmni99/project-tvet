@@ -16,6 +16,10 @@ import { OAuthSettings } from '../oauth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { ChannelsComponent } from './components/channels/channels.component';
+import { LeaderboardsComponent } from './components/leaderboards/leaderboards.component';
+import { ChannelRegisterComponent } from './components/channel-register/channel-register.component';
+import { AddChannelComponent } from './components/add-channel/add-channel.component';
 
 let msalInstance: IPublicClientApplication | undefined = undefined;
 
@@ -42,7 +46,11 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     NavBarComponent,
     HomeComponent,
     AlertsComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ChannelsComponent,
+    LeaderboardsComponent,
+    ChannelRegisterComponent,
+    AddChannelComponent
   ],
   imports: [
     BrowserModule,

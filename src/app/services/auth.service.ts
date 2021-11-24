@@ -94,7 +94,6 @@ export class AuthService {
     // Get the user from Graph (GET /me)
     const graphUser: MicrosoftGraph.User = await graphClient
       .api('/me')
-      .select('displayName')
       .get();
   
     const user = new User();
@@ -102,9 +101,15 @@ export class AuthService {
     // Prefer the mail property, but fall back to userPrincipalName
     user.email = graphUser.mail ?? graphUser.userPrincipalName ?? '';
     user.timeZone = graphUser.mailboxSettings?.timeZone ?? 'UTC';
-  
+    user.id = graphUser.id?? '';
     // Use default avatar
-    user.avatar = '/assets/no-profile-photo.png';
+    user.avatar =  '/assets/no-profile-photo.png';
+
+    if(user.email.includes('student'))
+      user.isStudent = true;
+    else
+      user.isStudent = false;
+      
     return user;
   }
 }

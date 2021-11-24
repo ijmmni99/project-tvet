@@ -1,0 +1,15 @@
+<app-spinner *ngIf="loading"></app-spinner>
+<div class="l-grid-col">
+    <div class="animatezoom l-grid-child" *ngFor="let c of channels">
+      <div class="c-card" (click)="directChannel(c.teamid)">
+        <div class="c-card__body">
+          <div class="u-text--center" id="winner">
+            <div class="u-text-small u-text--medium u-mb--16">{{c.code}}</div>
+              <img class="c-avatar c-avatar--lg" [src]="c.img"/>
+              <h3 class="u-mt--16">{{c.title}}</h3>
+              <span class="u-text--teal u-text--small">{{c.lecturer}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

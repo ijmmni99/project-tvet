@@ -3,4 +3,6 @@ export class User {
     email!: string;
     avatar!: string;
     timeZone!: string;
+    id!: string;
+    isStudent!: boolean;
   }
