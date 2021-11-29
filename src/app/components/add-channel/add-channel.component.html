@@ -5,13 +5,15 @@
                 <h3>Add Channel</h3>
             </div>
             <div class="form">
+                <form [formGroup]="service.search_form">
                 <div class="input-container ic1">
-                  <input id="subjectCode" class="input" type="text" placeholder=" " />
+                  <input formControlName="subjectCode" id="subjectCode" class="input" type="text" placeholder=" " />
                   <div class="cut"></div>
                   <label for="subjectCode" class="placeholder">Enter Channel ID</label>
                 </div>
-                <button type="text" class="submit c-button--primary">Search</button>
-              </div>
+                <button [disabled]="service.search_form.invalid" type="text" class="submit c-button--primary" (click)="OnSearch()">Search</button>
+            </form>  
+            </div>
         </div>
     </div>
         <div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 
 @Component({
   selector: 'app-add-channel',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddChannelComponent implements OnInit {
 
-  constructor() { }
+  constructor(public service: ChannelRegisterServiceService) { }
 
   ngOnInit(): void {
   }
+
+  OnSearch(){
+    this.service.findChannel(this.service.search_form.get('subjectCode')?.value);
+  }
+
+  
 
 }

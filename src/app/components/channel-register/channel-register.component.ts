@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 
 @Component({
   selector: 'app-channel-register',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChannelRegisterComponent implements OnInit {
 
-  constructor() { }
+  constructor(public service: ChannelRegisterServiceService) { }
 
   ngOnInit(): void {
+  }
+
+  OnSubmit(){
+    this.service.registerChannel(this.service.register_form.value);
   }
 
 }
