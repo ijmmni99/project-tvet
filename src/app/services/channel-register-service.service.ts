@@ -12,20 +12,32 @@ export class ChannelRegisterServiceService {
 
   constructor(private httpClient: HttpClient) { }
 
-  form: FormGroup = new FormGroup({
+  register_form: FormGroup = new FormGroup({
     subjectCode: new FormControl('', Validators.required),
     subjectName: new FormControl('', Validators.required),
     teamsID: new FormControl('', Validators.required),
     channelID: new FormControl('', Validators.required),
   });
 
+  search_form: FormGroup = new FormGroup({
+    subjectCode: new FormControl('', Validators.required),
+  })
+
   initializeFormGroup(){
-    this.form.setValue({
+    this.register_form.setValue({
       subjectCode: '',
       subjectName: '',
       teamsID: '',
       channelID: '',
     })
+  }
+
+  findChannel(id: string) {
+    return this.httpClient.get<Channel[]>(`${this.API_SERVER}/channels/${id}`)
+  }
+
+  addChannel(channel: Channel) {
+    return this.httpClient.post<Channel[]>(`${this.API_SERVER}/channels/add/`, channel);
   }
 
   registerChannel(channel: Channel) {

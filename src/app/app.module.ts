@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HomeComponent } from './home/home.component';
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { IPublicClientApplication, PublicClientApplication, BrowserCacheLocation } from '@azure/msal-browser';
@@ -44,7 +43,6 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarComponent,
     HomeComponent,
     AlertsComponent,
     SpinnerComponent,
