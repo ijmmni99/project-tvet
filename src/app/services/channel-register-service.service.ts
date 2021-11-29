@@ -44,8 +44,8 @@ export class ChannelRegisterServiceService {
     return this.httpClient.post<Channel>(`${this.API_SERVER}/channel/create`, channel);
   }
 
-  updateChannel(channel: Channel) {
-    return this.httpClient.put<Channel>(`${this.API_SERVER}/channel/update`, channel);
+  updateChannel(id: string,channel: Channel) {
+    return this.httpClient.put<Channel>(`${this.API_SERVER}/channel/${id}/update`, channel);
   }
 
   deleteChannel(id: string) {
