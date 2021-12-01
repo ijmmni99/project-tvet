@@ -109,7 +109,7 @@ export class LeaderboardsComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router, private graphService: GraphService) { 
     console.log(this.router.getCurrentNavigation()!.extras!.state!.id);
-    this.setData(this.router.getCurrentNavigation()!.extras!.state!.id);
+    this.setData(this.router.getCurrentNavigation()!.extras!.state!.id, this.router.getCurrentNavigation()!.extras!.state!.channelID);
   }
 
   ngOnInit(): void {
@@ -118,9 +118,9 @@ export class LeaderboardsComponent implements OnInit {
     this.students.sort((a, b) => b.kudos - a.kudos);
   }
 
-  setData(id: string): void {
+  setData(id: string, channelID: string): void {
     this.loading = true;
-    this.graphService.getListChannel(id).then((data: Array<Users>) => {
+    this.graphService.getListChannel(id,channelID).then((data: Array<Users>) => {
       this.chats = data;
     }).then( _ => {
       this.loading = false;

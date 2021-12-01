@@ -14,7 +14,7 @@ export class ChannelRegisterComponent implements OnInit {
   }
 
   OnSubmit(){
-    this.service.registerChannel(this.service.register_form.value);
+    this.service.registerChannel(this.service.register_form.value)
   }
 
   OnUpdate() {

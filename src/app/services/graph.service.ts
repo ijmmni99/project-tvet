@@ -81,20 +81,16 @@ export class GraphService {
     }
   }
 
-  async getListChannel(id: any){
+  async getListChannel(id: any, channelID: any){
 
     let chats: Array<Users> = [];
     
-    try {
+    try {  
       const result = await this.graphClient
-        .api(`/teams/${id}/channels`)
-        .get();
-        
-      const result2 = await this.graphClient
-        .api(`/teams/${id}/channels/${result.value[2].id}/messages`)
+        .api(`/teams/${id}/channels/${channelID}/messages`)
         .get();
 
-      let data: Array<MicrosoftGraph.ChatMessage> = result2.value;
+      let data: Array<MicrosoftGraph.ChatMessage> = result.value;
       
 
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
