@@ -6,13 +6,14 @@ import { Channel } from '../models/channel';
 import { AuthService } from './auth.service';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { Lecturer } from '../models/lecturer';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChannelRegisterServiceService {
 
-  API_SERVER = "http://localhost:3000";
+  API_SERVER = environment.API_SERVER;
 
   constructor(private httpClient: HttpClient, public authService: AuthService) { }
 
