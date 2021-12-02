@@ -14,13 +14,15 @@ import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 
 export class AuthService {
   public authenticated: boolean;
+  public userID: string;
   public user?: User;
 
   constructor(private msalService: MsalService, private alertsService: AlertsService) {
-    this.authenticated = this.msalService.instance
-        .getAllAccounts().length > 0;
+      this.authenticated = this.msalService.instance.getAllAccounts().length > 0;
+      this.userID = this.msalService.instance.getAllAccounts()[0]?.localAccountId!;
+      
       this.getUser().then((user) => {this.user = user});
-    }
+  }
 
   // Prompt the user to sign in and
   // grant consent to the requested permission scopes
@@ -34,8 +36,8 @@ export class AuthService {
       });
 
     if (result) {
-      this.msalService.instance.setActiveAccount(result.account);
       this.authenticated = true;
+      this.userID = result.account?.localAccountId!;
       this.user = await this.getUser();
     }
   }

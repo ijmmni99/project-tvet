@@ -8,6 +8,7 @@
       <ng-template #lecturerPage>
         <div>
             <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
+            <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="this.router.url != '/'" (click)="back()">Back</button>
             <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelRegister()">Register Channel</button>
             <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>  
         </div>

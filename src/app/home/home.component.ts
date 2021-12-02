@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-
+import {Location} from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user';
 import { GraphService } from '../services/graph.service';
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
 
   chats: Array<Users> = [];
 
-  constructor(private router: Router, private authService: AuthService, private graphService: GraphService) { 
+  constructor(public router: Router, private authService: AuthService, private graphService: GraphService, private location: Location) { 
     
   }
 
@@ -41,7 +41,6 @@ export class HomeComponent implements OnInit {
 
   async signIn(): Promise<void> {
     await this.authService.signIn().then(_ => {
-      console.log(this.user)
     });
   }
 
@@ -55,5 +54,9 @@ export class HomeComponent implements OnInit {
 
   channelAdd() {
     this.router.navigateByUrl('add-channel');
+  }
+
+  back(){
+    this.location.back();
   }
 }

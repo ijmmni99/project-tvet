@@ -45,6 +45,11 @@ export class ChannelRegisterServiceService {
     return this.httpClient.get<Channel[]>(`${this.API_SERVER}/channel/`)
   }
 
+  getAllbyID() {
+    this.lecturer.teacherId = this.authService.userID;
+    return this.httpClient.post<Channel[]>( `${this.API_SERVER}/channel/lecturer/`, this.lecturer, {observe: 'response'});
+  }
+
   findChannel(id: string) {
     return this.httpClient.get<Channel[]>(`${this.API_SERVER}/channel/${id}`)
   }
@@ -55,7 +60,7 @@ export class ChannelRegisterServiceService {
 
   registerChannel(channel: Channel): Subscription {
 
-    this.lecturer.teacherId = this.authService.user?.id;
+    this.lecturer.teacherId = this.authService.userID;
     channel.lecturerID = this.lecturer;
 
     return this.httpClient.post<Channel>(`${this.API_SERVER}/channel/create/`, channel, {observe: 'response'}).

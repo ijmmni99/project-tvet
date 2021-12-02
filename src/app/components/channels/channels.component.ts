@@ -12,7 +12,7 @@ import { GraphService } from 'src/app/services/graph.service';
 })
 export class ChannelsComponent implements OnInit {
 
-  channels: Channel[] = [];
+  channels: Channel[] | null = [];
 
  
   loading: boolean = false;
@@ -22,8 +22,9 @@ export class ChannelsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.channelService.getAll().subscribe(data => {
-      this.channels = data;
+    this.channelService.getAllbyID().subscribe(data => {
+      console.log(data.body)
+      this.channels = data.body;
     });
   }
 
