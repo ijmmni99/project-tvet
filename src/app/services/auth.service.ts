@@ -18,10 +18,11 @@ export class AuthService {
   public user?: User;
 
   constructor(private msalService: MsalService, private alertsService: AlertsService) {
-      this.authenticated = this.msalService.instance.getAllAccounts().length > 0;
-      this.userID = this.msalService.instance.getAllAccounts()[0]?.localAccountId!;
-      
-      this.getUser().then((user) => {this.user = user});
+    this.authenticated = this.msalService.instance.getAllAccounts().length > 0;
+    this.userID = this.msalService.instance.getAllAccounts()[0]?.localAccountId!;
+    this.getUser().then(data=> {
+      this.user = data
+    })
   }
 
   // Prompt the user to sign in and
@@ -71,7 +72,7 @@ export class AuthService {
     return '';
   }
 
-  private async getUser(): Promise<User | undefined> {
+  async getUser(): Promise<User | undefined> {
     if (!this.authenticated) return undefined;
   
     const graphClient = Client.init({

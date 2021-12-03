@@ -19,24 +19,25 @@ export class HomeComponent implements OnInit {
   channelChoose: boolean = false;
   winner = { name: '', img: ''};
   dataSource: any[] | undefined;
-  
+  loading: boolean = false;
   // Is a user logged in?
   get authenticated(): boolean {
     return this.authService.authenticated;
   }
   // The user
+
   get user(): User | undefined {
-    return this.authService.user;
+    return this.authService.user
   }
 
-  chats: Array<Users> = [];
-
-  constructor(public router: Router, private authService: AuthService, private graphService: GraphService, private location: Location) { 
-    
-  }
+  constructor(public router: Router, private authService: AuthService, private graphService: GraphService, private location: Location) { }
 
   ngOnInit() {
-    
+    this.loading = true;
+    this.authService.getUser().then(_ => {
+      this.authService.user = _;
+      this.loading = false;
+    })
   }
 
   async signIn(): Promise<void> {

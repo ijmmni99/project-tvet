@@ -9,14 +9,14 @@
         <div>
             <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
             <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="this.router.url != '/'" (click)="back()">Back</button>
-            <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelRegister()">Register Channel</button>
+            <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="!loading" (click)="channelRegister()">Register Channel</button>
             <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>  
         </div>
       </ng-template>
       <ng-template #studentPage>
         <div>
           <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
-          <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelAdd()">Add Channel</button>
+          <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="!loading" (click)="channelAdd()">Add Channel</button>
           <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>  
       </div>
       </ng-template>
@@ -62,6 +62,6 @@
       </div>
     </div>
   </div>
-
-  <router-outlet *ngIf="authenticated"></router-outlet>
+  <app-spinner *ngIf="loading"></app-spinner>
+  <router-outlet *ngIf="authenticated && !loading"></router-outlet>
 </div>
