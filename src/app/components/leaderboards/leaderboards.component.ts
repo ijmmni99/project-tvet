@@ -107,9 +107,11 @@ export class LeaderboardsComponent implements OnInit {
     return this.authService.user;
   }
 
-  constructor(private authService: AuthService, private router: Router, private graphService: GraphService) { 
-    console.log(this.router.getCurrentNavigation()!.extras!.state!.id);
-    this.setData(this.router.getCurrentNavigation()!.extras!.state!.id, this.router.getCurrentNavigation()!.extras!.state!.channelID);
+  constructor(private authService: AuthService, private router: Router, private graphService: GraphService) {
+    if(this.router.getCurrentNavigation()?.extras.state)
+      this.setData(this.router.getCurrentNavigation()!.extras!.state!.id, this.router.getCurrentNavigation()!.extras!.state!.channelID);
+    else
+      this.router.navigate(['']);
   }
 
   ngOnInit(): void {
