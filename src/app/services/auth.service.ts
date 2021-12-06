@@ -14,15 +14,25 @@ import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 
 export class AuthService {
   public authenticated: boolean;
-  public userID: string;
-  public user?: User;
+  public authUser: AccountInfo;
+  public isStudent: boolean;
+  //public user?: User;
 
   constructor(private msalService: MsalService, private alertsService: AlertsService) {
     this.authenticated = this.msalService.instance.getAllAccounts().length > 0;
-    this.userID = this.msalService.instance.getAllAccounts()[0]?.localAccountId!;
-    this.getUser().then(data=> {
-      this.user = data
-    })
+    this.authUser = this.msalService.instance.getAllAccounts()[0]!;
+
+    if(this.authUser){
+      if(this.authUser.username.includes('student'))
+        this.isStudent = true
+      else
+        this.isStudent = false;
+    }
+    else
+      this.isStudent = false;
+    // this.getUser().then(data=> {
+    //   this.user = data
+    // })
   }
 
   // Prompt the user to sign in and
@@ -38,15 +48,20 @@ export class AuthService {
 
     if (result) {
       this.authenticated = true;
-      this.userID = result.account?.localAccountId!;
-      this.user = await this.getUser();
+      this.authUser = result.account!;
+
+      if(this.authUser.username.includes('student'))
+        this.isStudent = true
+      else
+        this.isStudent = false;
+      //this.user = await this.getUser();
     }
   }
 
   // Sign out
   async signOut(): Promise<void> {
     await this.msalService.logout().toPromise();
-    this.user = undefined;
+    //this.user = undefined;
     this.authenticated = false;
   }
 

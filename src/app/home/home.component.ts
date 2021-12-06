@@ -20,18 +20,18 @@ export class HomeComponent implements OnInit {
     return this.authService.authenticated;
   }
 
-  get user(): User | undefined {
-    return this.authService.user
+  get isStudent(): boolean {
+    return this.authService.isStudent
   }
 
   constructor(public router: Router, private authService: AuthService, private location: Location) { }
 
   ngOnInit() {
-    this.loading = true;
-    this.authService.getUser().then(_ => {
-      this.authService.user = _;
-      this.loading = false;
-    })
+    // this.loading = true;
+    // this.authService.getUser().then(_ => {
+    //   this.authService.user = _;
+    //   this.loading = false;
+    // })
   }
 
   async signIn(): Promise<void> {

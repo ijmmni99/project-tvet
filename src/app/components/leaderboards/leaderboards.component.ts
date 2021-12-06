@@ -103,8 +103,8 @@ export class LeaderboardsComponent implements OnInit {
     return this.authService.authenticated;
   }
 
-  get user(): User | undefined {
-    return this.authService.user;
+  get isStudent(): boolean {
+    return this.authService.isStudent;
   }
 
   constructor(private authService: AuthService, private router: Router, private graphService: GraphService) {

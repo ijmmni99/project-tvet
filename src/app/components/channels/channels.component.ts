@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Channel } from 'src/app/models/channel';
+import { User } from 'src/app/models/user';
 import { Users } from 'src/app/models/users';
+import { AuthService } from 'src/app/services/auth.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 import { GraphService } from 'src/app/services/graph.service';
 
@@ -16,16 +18,25 @@ export class ChannelsComponent implements OnInit {
 
  
   loading: boolean = false;
-
-  constructor(private router: Router, private graphService: GraphService, private channelService: ChannelRegisterServiceService) { 
+  
+  constructor(private router: Router, private authService: AuthService, private channelService: ChannelRegisterServiceService) { 
     
   }
 
   ngOnInit(): void {
-    this.channelService.getAllbyID().subscribe(data => {
-      console.log(data.body)
-      this.channels = data.body;
-    });
+    this.loading = true;
+    if(this.authService.isStudent){
+      this.channelService.getAll().subscribe(data => {
+        this.channels = data;
+        this.loading = false;
+      });
+    }
+    else{
+      this.channelService.getAllbyID().subscribe(data => {
+        this.channels = data.body;
+        this.loading = false;
+      });
+    }   
   }
 
   directChannel(id: any, channelID: any) {
