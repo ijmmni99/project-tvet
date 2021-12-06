@@ -5,6 +5,7 @@ import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { AuthService } from '../services/auth.service';
 import { AlertsService } from '../services/alerts.service';
 import { Users } from '../models/users';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { Users } from '../models/users';
 
 export class GraphService {
 
-  
+  pipe = new DatePipe('en-US');
   private graphClient: Client;
   constructor(
     private authService: AuthService,
@@ -37,38 +38,6 @@ export class GraphService {
     });
   }
 
-  async getCalendarView(start: string, end: string, timeZone: string): Promise<MicrosoftGraph.Event[] | undefined> {
-    try {
-      const result =  await this.graphClient
-        .api('/me/calendarview')
-        .header('Prefer', `outlook.timezone="${timeZone}"`)
-        .query({
-          startDateTime: start,
-          endDateTime: end
-        })
-        .select('subject,organizer,start,end')
-        .orderby('start/dateTime')
-        .top(50)
-        .get();
-
-      return result.value;
-    } catch (error) {
-      this.alertsService.addError('Could not get events', JSON.stringify(error, null, 2));
-    }
-    return undefined;
-  }
-
-  async addEventToCalendar(newEvent: MicrosoftGraph.Event): Promise<void> {
-    try {
-      // POST /me/events
-      await this.graphClient
-        .api('/me/events')
-        .post(newEvent);
-    } catch (error) {
-      throw Error(JSON.stringify(error, null, 2));
-    }
-  }
-
   async getPhoto(){
     try {
       const result = await this.graphClient
@@ -84,26 +53,51 @@ export class GraphService {
   async getListChannel(id: any, channelID: any){
 
     let chats: Array<Users> = [];
-    
+    var myCurrentDate = new Date();
+    var myPastDate = new Date(myCurrentDate);
+    myPastDate.setDate(myPastDate.getDate() - 14);
+
+    console.log(myPastDate);
+
     try {  
-      const result = await this.graphClient
+        // let result = await this.graphClient
+        // .api(`/teams/${id}/channels/${channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${myPastDate.toISOString()}`)
+        // .get();
+
+        let result = await this.graphClient
         .api(`/teams/${id}/channels/${channelID}/messages`)
         .get();
 
+        console.log(result)
+      let loop: boolean = true;
       let data: Array<MicrosoftGraph.ChatMessage> = result.value;
+      do
+      {
+        if(result['@odata.nextLink'] == undefined)
+          loop = false;
+        else
+        {
+          result = await this.graphClient.api(result['@odata.nextLink']).get();
+          console.log(result)
+          data = data.concat(result.value)
+        }
+      }
+      while(loop == false)
       
+      // const dateNow = new Date();
+      // const dateNowMinusEightHours = new Date(new Date(dateNow).getDate() - 1000 * 60 * 60 * 8)
+      // console.log(dateNow)
 
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
-            if(!chats.find(x => x.id == element.from?.user?.id)){
-                chats.push({
-                id: element.from?.user?.id,
-                name: element.from?.user?.displayName,
-                messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length
-            });
-          }
+        if(!chats.find(x => x.id == element.from?.user?.id)){
+            chats.push({
+            id: element.from?.user?.id,
+            name: element.from?.user?.displayName,
+            messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length
+          });
+        }
       });
 
-        
       chats = chats.sort((a, b) => b.messageCount - a.messageCount);
       
       return chats;
