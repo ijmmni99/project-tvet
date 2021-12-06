@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
 
 /* Add padding for the nav bar */
 body {
@@ -61,16 +63,15 @@ body {
   background: var(--bg);
   color: var(--color);
   font-size: 1.6rem;
-  font-family: "Overpass Mono", system-ui;
+  font-family: "Poppins", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
-  font-family: "Oswald", system-ui;
+  font-family: "Poppins", sans-serif;
 }
 
 a {
@@ -403,7 +404,7 @@ button, select {
 }
 
 .u-text--title {
-  font-family: "Oswald", system-ui;
+  font-family: "Poppins", sans-serif;
 }
 
 .u-text--left {
@@ -720,4 +721,4 @@ button, select {
   margin-top: 3.2rem;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: "Poppins", sans-serif; }

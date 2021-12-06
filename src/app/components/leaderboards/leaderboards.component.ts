@@ -92,12 +92,12 @@ export class LeaderboardsComponent implements OnInit {
 
 
   chats: Array<Users> = [];
-  winner = { name: '', img: ''};
   class = "BITP 2314";
   page:number = 1;
   channelChoose: boolean = false;
   dataSource: any[] | undefined;
   loading: boolean = false;
+  winner: string = '';
 
   get authenticated(): boolean {
     return this.authService.authenticated;
@@ -115,15 +115,14 @@ export class LeaderboardsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let sortedTeam = this.students.sort((a, b) => b.sent - a.sent);
-    this.winner = {name: sortedTeam[0].name, img: sortedTeam[0].img};
-    this.students.sort((a, b) => b.kudos - a.kudos);
+
   }
 
   setData(id: string, channelID: string): void {
     this.loading = true;
-    this.graphService.getListChannel(id,channelID).then((data: Array<Users>) => {
+    this.graphService.getListMessage(id,channelID).then((data: Array<Users>) => {
       this.chats = data;
+      this.winner = data[0].name!;
     }).then( _ => {
       this.loading = false;
     })

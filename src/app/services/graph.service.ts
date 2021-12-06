@@ -50,7 +50,7 @@ export class GraphService {
     }
   }
 
-  async getListChannel(id: any, channelID: any){
+  async getListMessage(id: any, channelID: any){
 
     let chats: Array<Users> = [];
     var myCurrentDate = new Date();
