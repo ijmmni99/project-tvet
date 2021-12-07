@@ -82,7 +82,7 @@ export class GraphService {
           data = data.concat(result.value)
         }
       }
-      while(loop == false)
+      while(loop == true)
       
       // const dateNow = new Date();
       // const dateNowMinusEightHours = new Date(new Date(dateNow).getDate() - 1000 * 60 * 60 * 8)

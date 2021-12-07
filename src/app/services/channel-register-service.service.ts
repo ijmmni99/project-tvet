@@ -25,6 +25,13 @@ export class ChannelRegisterServiceService {
     lecturerID: new FormControl(''),
   });
 
+  register_form_link: FormGroup = new FormGroup({
+    subjectCode: new FormControl('', Validators.required),
+    subjectName: new FormControl('', Validators.required),
+    teamsLink: new FormControl('', Validators.required),
+    lecturerID: new FormControl(''),
+  });
+
   search_form: FormGroup = new FormGroup({
     subjectCode: new FormControl('', Validators.required),
   })
@@ -37,6 +44,13 @@ export class ChannelRegisterServiceService {
       subjectName: '',
       teamsID: '',
       channelID: '',
+      lecturerID: ''
+    })
+
+    this.register_form_link.setValue({
+      subjectCode: '',
+      subjectName: '',
+      teamsLink: '',
       lecturerID: ''
     })
   }

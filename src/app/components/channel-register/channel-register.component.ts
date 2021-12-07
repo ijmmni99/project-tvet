@@ -8,13 +8,42 @@ import { ChannelRegisterServiceService } from 'src/app/services/channel-register
 })
 export class ChannelRegisterComponent implements OnInit {
 
+  options: boolean = false;
+
   constructor(public service: ChannelRegisterServiceService) { }
 
   ngOnInit(): void {
   }
 
   OnSubmit(){
-    this.service.registerChannel(this.service.register_form.value)
+    try{
+      if(this.options)
+        this.service.registerChannel(this.service.register_form.value)
+      else
+      {
+        //https://teams.microsoft.com/l/channel/19%3adf70ceddab834341b6feae3e8916b76f%40thread.tacv2/Design?groupId=deb44936-3f8a-4d8b-b46d-8bb96da7ec36&tenantId=9f952c8b-5bd3-45e9-96ec-7f8b668f1537
+        //https://teams.microsoft.com/l/channel/19%3a249d86d1a330430bab92557cc6061367%40thread.tacv2/Digital%2520Assets%2520Web?groupId=deb44936-3f8a-4d8b-b46d-8bb96da7ec36&tenantId=9f952c8b-5bd3-45e9-96ec-7f8b668f1537
+        
+          let link = this.service.register_form_link.get('teamsLink')!.value;
+          let teamsMetadata = link.split('/');
+          let channelid = teamsMetadata[5]
+          let teamsandtenant = teamsMetadata[6].split('groupId=').pop();
+          let teamsid = teamsandtenant!.substring(0, teamsandtenant!.indexOf('&tenantId='))
+    
+          this.service.register_form.setValue({
+            subjectCode: this.service.register_form_link.get('subjectCode')!.value,
+            subjectName: this.service.register_form_link.get('subjectName')!.value,
+            teamsID: teamsid,
+            channelID: channelid,
+            lecturerID: ''
+          })
+    
+          this.service.registerChannel(this.service.register_form.value)
+      }
+    }
+    catch(error){
+      console.log(error)
+    }
   }
 
   OnUpdate() {

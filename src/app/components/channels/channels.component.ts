@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Channel } from 'src/app/models/channel';
-import { User } from 'src/app/models/user';
-import { Users } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
-import { GraphService } from 'src/app/services/graph.service';
 
 @Component({
   selector: 'app-channels',
@@ -39,12 +36,12 @@ export class ChannelsComponent implements OnInit {
     }   
   }
 
-  directChannel(id: any, channelID: any) {
+  directChannel(id: any, channelID: any, subjectCode: any) {
 
     this.loading = true;
 
     this.router.navigateByUrl('leaderboards', {
-      state: {id: id, channelID: channelID}
+      state: {id: id, channelID: channelID, class: subjectCode}
   }).then(_ => {
     this.loading = false;
   });

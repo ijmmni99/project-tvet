@@ -47,7 +47,7 @@
         <div class="c-card__header">
           <h3>{{class}}</h3>
           <select class="c-select animatezoom">
-            <option selected="selected">Sunday, Feb. 23 - Sunday, Feb. 30</option>
+            <option selected="selected">{{myPastDate | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>
           </select>
         </div>
         <app-spinner *ngIf="loading"></app-spinner>

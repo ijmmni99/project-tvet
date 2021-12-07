@@ -99,6 +99,9 @@ export class LeaderboardsComponent implements OnInit {
   loading: boolean = false;
   winner: string = '';
 
+  myCurrentDate: Date;
+  myPastDate: Date;
+
   get authenticated(): boolean {
     return this.authService.authenticated;
   }
@@ -108,8 +111,15 @@ export class LeaderboardsComponent implements OnInit {
   }
 
   constructor(private authService: AuthService, private router: Router, private graphService: GraphService) {
-    if(this.router.getCurrentNavigation()?.extras.state)
+    
+    this.myCurrentDate = new Date();
+    this.myPastDate= new Date(this.myCurrentDate);
+    this.myPastDate.setDate(this.myPastDate.getDate() - 14);
+
+    if(this.router.getCurrentNavigation()?.extras.state){
+      this.class = this.router.getCurrentNavigation()!.extras!.state!.class;
       this.setData(this.router.getCurrentNavigation()!.extras!.state!.id, this.router.getCurrentNavigation()!.extras!.state!.channelID);
+    }   
     else
       this.router.navigate(['']);
   }
