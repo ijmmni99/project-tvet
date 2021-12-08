@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertsService } from 'src/app/services/alerts.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class ChannelRegisterComponent implements OnInit {
 
   options: boolean = false;
 
-  constructor(public service: ChannelRegisterServiceService) { }
+  constructor(public service: ChannelRegisterServiceService, private alertService: AlertsService) { }
 
   ngOnInit(): void {
   }
@@ -38,11 +39,20 @@ export class ChannelRegisterComponent implements OnInit {
             lecturerID: ''
           })
     
-          this.service.registerChannel(this.service.register_form.value)
+          this.service.registerChannel(this.service.register_form.value).subscribe(data => {
+            console.log(data)
+            if(data.ok) {
+              this.service.initializeFormGroup();
+              this.alertService.addSuccess('Successfully Registered');
+            }
+            else{
+              this.alertService.addError(data.statusText);
+            }
+          })
       }
     }
     catch(error){
-      console.log(error)
+      this.alertService.addError('' + error);
     }
   }
 

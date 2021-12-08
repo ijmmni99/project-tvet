@@ -72,19 +72,12 @@ export class ChannelRegisterServiceService {
     return this.httpClient.post<Channel[]>(`${this.API_SERVER}/channel/add/`, channel);
   }
 
-  registerChannel(channel: Channel): Subscription {
+  registerChannel(channel: Channel) {
 
     this.lecturer.teacherId = this.authService.authUser.localAccountId;
     channel.lecturerID = this.lecturer;
 
-    return this.httpClient.post<Channel>(`${this.API_SERVER}/channel/create/`, channel, {observe: 'response'}).
-    subscribe(data => {
-      console.log(data)
-      if(data.ok)
-        this.initializeFormGroup();
-      else
-        throw new Error(data.statusText)
-    })
+    return this.httpClient.post<Channel>(`${this.API_SERVER}/channel/create/`, channel, {observe: 'response'})
   }
 
   updateChannel(id: string,channel: Channel) {

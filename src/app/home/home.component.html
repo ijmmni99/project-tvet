@@ -9,7 +9,7 @@
         <div>
             <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
             <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="this.router.url != '/'" (click)="back()">Back</button>
-            <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelRegister()">Register Channel</button>
+            <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelRegister()" matTooltip="Register new subject">Register Channel</button>
             <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>  
         </div>
       </ng-template>
@@ -17,14 +17,14 @@
         <div>
           <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
           <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="this.router.url != '/'" (click)="back()">Back</button>
-          <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelAdd()">Add Channel</button>
-          <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>  
+          <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelAdd()" matTooltip="Add new subject">Add Channel</button>
+          <button class="c-button c-button--primary"  role="button" (click)="signOut()" >Sign Out</button>  
       </div>
       </ng-template>
         
     </ng-template>
     <ng-template #signInPrompt>
-        <button class="c-button c-button--primary animatezoom" role="button" (click)="signIn()" >Sign In</button>  
+        <button class="c-button c-button--primary animatezoom" role="button" (click)="signIn()" matTooltip="Sign In using UTeM account" >Sign In</button>  
       </ng-template>
   </div>
 

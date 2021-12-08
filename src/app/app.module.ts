@@ -6,6 +6,10 @@ import { NgAnimatedBorderModule } from 'ng-animated-border'
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -13,8 +17,6 @@ import { AlertsComponent } from './components/alerts/alerts.component';
 import { IPublicClientApplication, PublicClientApplication, BrowserCacheLocation } from '@azure/msal-browser';
 import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 import { OAuthSettings } from '../oauth';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ChannelsComponent } from './components/channels/channels.component';
 import { LeaderboardsComponent } from './components/leaderboards/leaderboards.component';
@@ -62,6 +64,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     NgxPaginationModule,
     NgAnimatedBorderModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
+    MatSnackBarModule,
     HttpClientModule
   ],
   providers: [ {
