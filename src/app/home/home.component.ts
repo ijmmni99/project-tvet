@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { User } from '../models/user';
 import { GraphService } from '../services/graph.service';
 import { Router } from '@angular/router';
+import { AlertsService } from '../services/alerts.service';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
     return this.authService.isStudent
   }
 
-  constructor(public router: Router, private authService: AuthService, private location: Location) { }
+  constructor(public router: Router, private authService: AuthService, private location: Location, private alertService: AlertsService) { }
 
   ngOnInit() {
     // this.loading = true;
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
 
   async signIn(): Promise<void> {
     await this.authService.signIn().then(_ => {
+      this.alertService.addSuccess('Successfully Login');
     });
   }
 
