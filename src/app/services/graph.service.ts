@@ -68,6 +68,11 @@ export class GraphService {
         .api(`/teams/${id}/channels/${channelID}/messages`)
         .get();
 
+        //let test =  await this.graphClient.api(`teams/${id}/channels/${channelID}/messages/1638961389492/replies`).get()
+
+        //console.log(test);
+        
+
         console.log(result)
       let loop: boolean = true;
       let data: Array<MicrosoftGraph.ChatMessage> = result.value;
