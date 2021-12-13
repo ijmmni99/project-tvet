@@ -73,7 +73,7 @@ export class GraphService {
         //console.log(test);
         
 
-        console.log(result)
+      console.log(result)
       let loop: boolean = true;
       let data: Array<MicrosoftGraph.ChatMessage> = result.value;
       do
