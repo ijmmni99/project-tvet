@@ -1,0 +1,45 @@
+<div class="l-grid__item animateslide">
+    <div class="c-card">
+      <div class="c-card__header">
+        <h3>Select Student</h3>
+      </div>
+      <app-spinner *ngIf="loading"></app-spinner>
+      <div class="c-card__body">
+        <ul class="c-list" id="list">
+          <li class="c-list__item">
+            <div class="c-list__grid">
+              <div class="u-text--left u-text--small u-text--medium">No</div>
+              <div class="u-text--left u-text--small u-text--medium">Name</div>
+              <div class="u-text--right u-text--small u-text--medium">Select</div>
+            </div>
+          </li>
+          <li class="c-list__item" style="cursor: pointer;" *ngFor="let member of chats | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
+            <div class="c-list__grid">
+              <div class="c-flag c-place u-text--light u-bg-- u-bg--transparent">{{chats.indexOf(member)+1}}</div>
+              <div class="c-media">
+                <img class="c-avatar c-media__img" src="../../assets/no-profile-photo.png" />
+                <div class="c-media__content">
+                  <div class="c-media__title">{{member.name}}</div>
+                  <!-- <a class="c-media__link u-text--small" target="_blank">{{member.name}}</a> -->
+                </div>
+              </div>
+              <div class="u-text--right c-kudos u-text--yellow">
+                <div class="u-mt--8">
+                  <strong>Add</strong>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li style="justify-content: center; display: flex;">
+            <pagination-controls id="leaderboardPaginate" [maxSize]="5" [directionLinks]="true" (pageChange)="page = $event"></pagination-controls>
+            <!-- <mat-paginator #paginator [length]="students.length"
+            [pageSize]="10"
+            aria-label="Select page"></mat-paginator> -->
+          </li>
+          <li>
+            <button type="text" class="submit c-button--primary" (click)="OnSubmit()">Submit</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>

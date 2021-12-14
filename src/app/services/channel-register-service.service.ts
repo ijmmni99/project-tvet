@@ -55,6 +55,10 @@ export class ChannelRegisterServiceService {
     })
   }
 
+  getAllMember() {
+    return this.httpClient.get<Channel[]>(`${this.API_SERVER}/channel/`)
+  }
+
   getAll() {
     return this.httpClient.get<Channel[]>(`${this.API_SERVER}/channel/`)
   }

@@ -10,6 +10,8 @@ import { ChannelRegisterServiceService } from 'src/app/services/channel-register
 export class ChannelRegisterComponent implements OnInit {
 
   options: boolean = false;
+  submitted: boolean = false;
+  teamid: any;
 
   constructor(public service: ChannelRegisterServiceService, private alertService: AlertsService) { }
 
@@ -38,17 +40,19 @@ export class ChannelRegisterComponent implements OnInit {
             channelID: channelid,
             lecturerID: ''
           })
-    
-          this.service.registerChannel(this.service.register_form.value).subscribe(data => {
-            console.log(data)
-            if(data.ok) {
-              this.service.initializeFormGroup();
-              this.alertService.addSuccess('Successfully Registered');
-            }
-            else{
-              this.alertService.addError(data.statusText);
-            }
-          })
+
+          this.teamid = teamsid;
+          this.submitted = true;
+          // this.service.registerChannel(this.service.register_form.value).subscribe(data => {
+          //   console.log(data)
+          //   if(data.ok) {
+          //     this.service.initializeFormGroup();
+          //     this.alertService.addSuccess('Successfully Registered');
+          //   }
+          //   else{
+          //     this.alertService.addError(data.statusText);
+          //   }
+          // })
       }
     }
     catch(error){

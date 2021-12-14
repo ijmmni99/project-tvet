@@ -50,7 +50,36 @@ export class GraphService {
     }
   }
 
-  async getListMessage(id: any, channelID: any){
+  async getListMembers(teamid: any) {
+    let members: Array<Users> = [];
+
+    try{
+      let result = await this.graphClient
+      .api(`/teams/${teamid}/members`)
+      .get();
+
+      console.log(result)
+
+      result.value.forEach((element: MicrosoftGraph.AadUserConversationMember) => {
+        members.push({
+          id: element.userId,
+          name: element.displayName,
+          messageCount: 0
+        })
+      })
+
+      console.log(members);
+      return members;
+    }
+    catch (error) {
+      console.log(error)
+      this.alertsService.addError('Could not get List Channel', JSON.stringify(error, null, 2));
+    }
+
+    return members;
+  }
+
+  async getListMessage(id: any, channelID: any) {
 
     let chats: Array<Users> = [];
     var myCurrentDate = new Date();
