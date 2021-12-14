@@ -49,12 +49,13 @@
                   <div class="cut"></div>
                   <label for="teamsLink" class="placeholder">Teams Channel Link</label>
                 </div>
-                <button [disabled]="service.register_form_link.invalid" type="text" class="submit c-button--primary" (click)="OnSubmit()">Submit</button>
+                <button [disabled]="service.register_form_link.invalid" type="text" class="submit c-button--primary" (click)="OnSubmit()">Next</button>
               </form>
             </div>    
         </div>
     </div>
         <div>
+            <app-add-student *ngIf='submitted' [teamid]='teamid'></app-add-student>
             <h3 style="text-align: center;">Channel List</h3>
             <app-channels></app-channels>
         </div>
