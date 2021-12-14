@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Users } from 'src/app/models/users';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 
@@ -12,16 +13,19 @@ export class ChannelRegisterComponent implements OnInit {
   options: boolean = false;
   submitted: boolean = false;
   teamid: any;
+  students: Array<Users> = [];
 
   constructor(public service: ChannelRegisterServiceService, private alertService: AlertsService) { }
 
   ngOnInit(): void {
   }
 
-  OnSubmit(){
+  OnNext(){
     try{
-      if(this.options)
-        this.service.registerChannel(this.service.register_form.value)
+      if(this.options){
+        this.teamid = this.service.register_form.get('teamsID')!.value;
+        this.submitted = true;
+      }
       else
       {
         //https://teams.microsoft.com/l/channel/19%3adf70ceddab834341b6feae3e8916b76f%40thread.tacv2/Design?groupId=deb44936-3f8a-4d8b-b46d-8bb96da7ec36&tenantId=9f952c8b-5bd3-45e9-96ec-7f8b668f1537
@@ -43,16 +47,7 @@ export class ChannelRegisterComponent implements OnInit {
 
           this.teamid = teamsid;
           this.submitted = true;
-          // this.service.registerChannel(this.service.register_form.value).subscribe(data => {
-          //   console.log(data)
-          //   if(data.ok) {
-          //     this.service.initializeFormGroup();
-          //     this.alertService.addSuccess('Successfully Registered');
-          //   }
-          //   else{
-          //     this.alertService.addError(data.statusText);
-          //   }
-          // })
+          
       }
     }
     catch(error){
@@ -60,8 +55,27 @@ export class ChannelRegisterComponent implements OnInit {
     }
   }
 
+  OnSubmit() {
+    this.service.registerChannel(this.service.register_form.value, this.students).subscribe(data => {
+      if(data.ok) {
+        console.log(data)
+        this.service.initializeFormGroup();
+        this.students = [];
+        this.submitted = false;
+        this.alertService.addSuccess('Successfully Registered');
+      }
+      else{
+        this.alertService.addError(data.statusText);
+      }
+    })
+  }
+
   OnUpdate() {
     this.service.updateChannel(this.service.register_form.get('channelID')?.value, this.service.register_form.value);
+  }
+
+  AddStudent(member: Users){
+    this.students.push(member)
   }
 
 }

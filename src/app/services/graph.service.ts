@@ -62,7 +62,7 @@ export class GraphService {
 
       result.value.forEach((element: MicrosoftGraph.AadUserConversationMember) => {
         members.push({
-          id: element.userId,
+          studentId: element.userId,
           name: element.displayName,
           messageCount: 0
         })
@@ -123,9 +123,9 @@ export class GraphService {
       // console.log(dateNow)
 
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
-        if(!chats.find(x => x.id == element.from?.user?.id)){
+        if(!chats.find(x => x.studentId == element.from?.user?.id)){
             chats.push({
-            id: element.from?.user?.id,
+            studentId: element.from?.user?.id,
             name: element.from?.user?.displayName,
             messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length
           });

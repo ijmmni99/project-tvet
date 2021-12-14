@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Users } from 'src/app/models/users';
 import { GraphService } from 'src/app/services/graph.service';
 
@@ -14,8 +14,9 @@ export class AddStudentComponent implements OnInit {
   channelChoose: boolean = false;
   dataSource: any[] | undefined;
   loading: boolean = false;
-  winner: string = '';
+  total: number = 0;
   @Input() teamid: any;
+  @Output('addStudentData') addStudentData = new EventEmitter<any>();
 
   constructor(private graphService: GraphService) { }
 
@@ -26,7 +27,13 @@ export class AddStudentComponent implements OnInit {
   }
 
   OnSubmit(){
-    
+
+  }
+
+  AddToMember(member: any){
+    this.chats.splice(this.chats.indexOf(member), 1);
+    this.total = this.total +1;
+    this.addStudentData.emit(member)
   }
 
 }

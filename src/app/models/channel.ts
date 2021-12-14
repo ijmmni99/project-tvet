@@ -1,4 +1,5 @@
 import { Lecturer } from "./lecturer";
+import { Users } from "./users";
 
 export class Channel {
     subjectCode!: string;
@@ -6,4 +7,5 @@ export class Channel {
     teamsID!: string;
     channelID!: string;
     lecturerID?: Lecturer
+    students?: Users[]
   }

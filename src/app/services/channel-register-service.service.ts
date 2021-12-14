@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { Lecturer } from '../models/lecturer';
 import { environment } from '../../environments/environment';
+import { Users } from '../models/users';
 
 @Injectable({
   providedIn: 'root'
@@ -76,12 +77,17 @@ export class ChannelRegisterServiceService {
     return this.httpClient.post<Channel[]>(`${this.API_SERVER}/channel/add/`, channel);
   }
 
-  registerChannel(channel: Channel) {
+  registerChannel(channel: Channel, members: Users[]) {
 
     this.lecturer.teacherId = this.authService.authUser.localAccountId;
     channel.lecturerID = this.lecturer;
+    channel.students = members;
 
     return this.httpClient.post<Channel>(`${this.API_SERVER}/channel/create/`, channel, {observe: 'response'})
+  }
+
+  registerMember(members: Users[], teamid: any) {
+    return this.httpClient.post(`${this.API_SERVER}/channel/create/`, members, {observe: 'response'})
   }
 
   updateChannel(id: string,channel: Channel) {

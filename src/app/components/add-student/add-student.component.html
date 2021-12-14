@@ -10,10 +10,10 @@
             <div class="c-list__grid">
               <div class="u-text--left u-text--small u-text--medium">No</div>
               <div class="u-text--left u-text--small u-text--medium">Name</div>
-              <div class="u-text--right u-text--small u-text--medium">Select</div>
+              <div class="u-text--right u-text--small u-text--medium">{{total}} Selected</div>
             </div>
           </li>
-          <li class="c-list__item" style="cursor: pointer;" *ngFor="let member of chats | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
+          <li class="c-list__item"  *ngFor="let member of chats | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
             <div class="c-list__grid">
               <div class="c-flag c-place u-text--light u-bg-- u-bg--transparent">{{chats.indexOf(member)+1}}</div>
               <div class="c-media">
@@ -23,9 +23,9 @@
                   <!-- <a class="c-media__link u-text--small" target="_blank">{{member.name}}</a> -->
                 </div>
               </div>
-              <div class="u-text--right c-kudos u-text--yellow">
+              <div class="u-text--right u-text--yellow" style="cursor: pointer;" (click)="AddToMember(member)">
                 <div class="u-mt--8">
-                  <strong>Add</strong>
+                  <strong class="c-button">Add</strong>
                 </div>
               </div>
             </div>
