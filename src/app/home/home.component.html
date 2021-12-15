@@ -6,19 +6,38 @@
     <ng-template #welcomeUser>
       <div *ngIf="isStudent; then studentPage else lecturerPage"></div>
       <ng-template #lecturerPage>
-        <div>
+        <div class="nav-full">
             <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
             <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="this.router.url != '/'" (click)="back()">Back</button>
             <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelRegister()" matTooltip="Register new subject">Register Channel</button>
             <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>  
         </div>
+        <div class="menu" [ngClass]="{'menu__active': showMyClass}" id="menu-drop" (click)="clickEvent()">
+          <span class="select">Menu</span>
+          <div class="menu__icon-box">
+              <div class="menu__icon"></div>
+          </div>
+          <div class="menu__dropdown">
+            <div class="menu__dropdown-option" (click)="channelRegister()">Register Channel</div>
+            <div class="menu__dropdown-option" (click)="signOut()">Sign Out</div>
+          </div>
+        </div>
       </ng-template>
       <ng-template #studentPage>
-        <div>
+        <div class="nav-full">
           <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="">ListChannlMessage</button> -->
           <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" *ngIf="this.router.url != '/'" (click)="back()">Back</button>
-          <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelAdd()" matTooltip="Add new subject">Add Channel</button>
+          <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelAdd()" matTooltip="Add new subject">Add Channel</button> -->
           <button class="c-button c-button--primary"  role="button" (click)="signOut()" >Sign Out</button>  
+      </div>
+      <div class="menu" [ngClass]="{'menu__active': showMyClass}" id="menu-drop" (click)="clickEvent()">
+        <span class="select">Menu</span>
+        <div class="menu__icon-box">
+            <div class="menu__icon"></div>
+        </div>
+        <div class="menu__dropdown">
+          <div class="menu__dropdown-option" (click)="signOut()">Sign Out</div>
+        </div>
       </div>
       </ng-template>
         
@@ -66,3 +85,19 @@
   <app-spinner *ngIf="loading"></app-spinner>
   <router-outlet *ngIf="authenticated && !loading"></router-outlet>
 </div>
+
+<script>
+  const menu = document.querySelector('.menu');
+const option = document.querySelector('.menu span')
+
+menu.addEventListener('click', e => {
+  if (e.target.classList.contains('menu') || e.target.classList.contains('select') || e.target.classList.contains('menu__icon')) {
+      menu.classList.toggle('menu__active');
+  }
+
+  if (e.target.classList.contains('menu__dropdown-option')) {
+      option.innerHTML = e.target.textContent;
+      menu.classList.remove('menu__active');
+  }
+})
+</script>

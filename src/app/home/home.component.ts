@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   page:number = 1;
   channelChoose: boolean = false;
   loading: boolean = false;
+  showMyClass: boolean = false;
 
   get authenticated(): boolean {
     return this.authService.authenticated;
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
   get isStudent(): boolean {
     return this.authService.isStudent
   }
-
+  
   constructor(public router: Router, private authService: AuthService, private location: Location, private alertService: AlertsService) { }
 
   ngOnInit() {
@@ -55,5 +56,9 @@ export class HomeComponent implements OnInit {
 
   back(){
     this.location.back();
+  }
+
+  clickEvent() {
+    this.showMyClass = this.showMyClass ? false : true;
   }
 }

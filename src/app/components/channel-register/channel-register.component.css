@@ -5,6 +5,12 @@
     padding: 20px;
     width: 320px;
   }
+
+  @media screen and (max-width: 700px) {
+    .form {
+      width: 100%;
+    }
+  }
   
   .title {
     color: #eee;

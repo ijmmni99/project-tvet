@@ -756,5 +756,107 @@ button, select {
 .u-mt--32 {
   margin-top: 3.2rem;
 }
+
+.menu {
+  border-radius: 0.4rem;
+  position: relative;
+  width: 15rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #687f98;
+  background-color: var(--container-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.28, 0.25, 0.36, 1.28);
+  padding: 1.8rem 2.4rem;
+  cursor: pointer;
+  box-shadow: 0rem 0rem 3rem darken(#eef3f6, 5%);
+  z-index: 2;
+}
+
+.menu__icon-box {
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.3rem;
+}
+
+.menu__icon {
+  width: 1rem;
+  height: 1rem;
+  border-top: 0.15rem solid #687f98;
+  border-right: 0.15rem solid #687f98;
+  transition: all 0.3s ease-in-out;
+  transform: rotate(135deg);
+}
+
+.menu__dropdown {
+  width: 15rem;
+  font-weight: lighter;
+  margin-left: -2.4rem;
+  position: absolute;
+  top: 5.2rem;
+  opacity: 0;
+  display: none;
+  padding: 1.8rem 2.4rem 1.6rem 2.4rem;
+  border-radius: 0 0 0.4rem 0.4rem;
+  background-color: var(--container-color);
+  border-top: 0.2rem solid var(--primary-trans);
+  z-index: -999;
+
+  
+}
+
+.menu__dropdown-option {
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.4rem; 
+}
+
+.menu__dropdown-option:hover {
+  background-color: #e8f0fc;
+}
+
+.menu__active {
+  transform: translateY(1rem);
+  border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.menu__active .menu__icon {
+    transform: rotate(-45deg);
+    margin-top: 0.5rem;
+  }
+
+  .menu__active .menu__dropdown {
+    opacity: 1;
+    display: block;
+    animation: showDropdownMenu 0.4s cubic-bezier(0.28, 0.25, 0.36, 1.28);
+  }
+
+  @media screen and (max-width: 1024px) {
+    .nav-full {
+      display: none;
+    }
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .menu {
+      display: none;
+    }
+  }
+
+@keyframes showDropdownMenu {
+  0% {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0rem);
+  }
+}
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: "Poppins", sans-serif; }
