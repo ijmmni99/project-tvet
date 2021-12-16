@@ -23,6 +23,7 @@ import { LeaderboardsComponent } from './components/leaderboards/leaderboards.co
 import { ChannelRegisterComponent } from './components/channel-register/channel-register.component';
 import { AddChannelComponent } from './components/add-channel/add-channel.component';
 import { AddStudentComponent } from './components/add-student/add-student.component';
+import { MeetingsComponent } from './components/meetings/meetings.component';
 
 let msalInstance: IPublicClientApplication | undefined = undefined;
 
@@ -53,7 +54,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     LeaderboardsComponent,
     ChannelRegisterComponent,
     AddChannelComponent,
-    AddStudentComponent
+    AddStudentComponent,
+    MeetingsComponent
   ],
   imports: [
     BrowserModule,

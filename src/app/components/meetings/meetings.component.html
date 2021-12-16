@@ -1,0 +1,61 @@
+<div class="l-grid">
+    <div class="l-grid__item l-grid__item--sticky">
+      <div class="c-card animatezoom">
+        <div class="c-card__body">
+          <div class="u-text--center" id="winner">
+            <div class="u-text-small u-text--medium u-mb--16">Top Student Last Week</div>
+              <div ngAnimatedBorderWrapper>
+                <div ngAnimatedBorder [abBackgroundColor]="'#333'" [abBorderWidth]="['51px']" [abBorderRadius]="['50%']" class="c-avatar c-avatar--lg img-animation">
+                  <img class="c-avatar c-avatar--lg" src="../../assets/no-profile-photo.png"/>
+                </div>
+              </div>  
+              <h3 class="u-mt--16">Test</h3>
+              <span class="u-text--teal u-text--small">Test</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="l-grid__item animateslide">
+      <div class="c-card">
+        <div class="c-card__header">
+          <h3>{{class}}</h3>
+          <select class="c-select animatezoom">
+            <option selected="selected">{{myPastDate | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>
+          </select>
+        </div>
+        <app-spinner *ngIf="loading"></app-spinner>
+        <div class="c-card__body">
+          <ul class="c-list" id="list">
+            <li class="c-list__item">
+              <div class="c-list__grid">
+                <div class="u-text--left u-text--small u-text--medium">No</div>
+                <div class="u-text--left u-text--small u-text--medium">Meeting Date</div>
+                <div class="u-text--right u-text--small u-text--medium">Choose</div>
+              </div>
+            </li>
+            <li class="c-list__item" style="cursor: pointer;" *ngFor="let meeting of meetings | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
+              <div class="c-list__grid">
+                <div style="margin-top: 0.3rem; margin-left: 0.3rem;" class="c-place u-text--light u-bg-- u-bg--transparent">{{meetings.indexOf(meeting)+1}}</div>
+                <div class="c-media">
+                  <div class="">
+                    <div class="c-media__title">{{meeting.createdDateTime | date: 'mediumDate'}}</div>
+                  </div>
+                </div>
+                <div class="u-text--right c-kudos" (click)="directLeaderboard(meeting.id)">
+                  <div class="u-mt--8 u-text--yellow">
+                    <strong>Select</strong>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li style="justify-content: center; display: flex;">
+              <pagination-controls id="leaderboardPaginate" [maxSize]="5" [directionLinks]="true" (pageChange)="page = $event"></pagination-controls>
+              <!-- <mat-paginator #paginator [length]="students.length"
+              [pageSize]="10"
+              aria-label="Select page"></mat-paginator> -->
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -118,7 +118,7 @@ export class LeaderboardsComponent implements OnInit {
 
     if(this.router.getCurrentNavigation()?.extras.state){
       this.class = this.router.getCurrentNavigation()!.extras!.state!.class;
-      this.setData(this.router.getCurrentNavigation()!.extras!.state!.id, this.router.getCurrentNavigation()!.extras!.state!.channelID);
+      this.setData(this.router.getCurrentNavigation()!.extras!.state!.id, this.router.getCurrentNavigation()!.extras!.state!.channelID, this.router.getCurrentNavigation()!.extras!.state!.messageID);
     }   
     else
       this.router.navigate(['']);
@@ -128,9 +128,9 @@ export class LeaderboardsComponent implements OnInit {
 
   }
 
-  setData(id: string, channelID: string): void {
+  setData(id: string, channelID: string, meetingID: string): void {
     this.loading = true;
-    this.graphService.getListMessage(id,channelID).then((data: Array<Users>) => {
+    this.graphService.getListMessage(id, channelID, meetingID).then((data: Array<Users>) => {
       this.chats = data;
       this.winner = data[0].name!;
     }).then( _ => {

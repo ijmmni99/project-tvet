@@ -40,7 +40,7 @@ export class ChannelsComponent implements OnInit {
 
     this.loading = true;
 
-    this.router.navigateByUrl('leaderboards', {
+    this.router.navigateByUrl('meetings', {
       state: {id: id, channelID: channelID, class: subjectCode}
   }).then(_ => {
     this.loading = false;

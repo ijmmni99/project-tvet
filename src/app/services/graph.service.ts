@@ -79,7 +79,44 @@ export class GraphService {
     return members;
   }
 
-  async getListMessage(id: any, channelID: any) {
+
+  async getListMeeting(id: any, channelID: any) {
+    let data: Array<MicrosoftGraph.ChatMessage> = [];
+    try {
+      
+      let result = await this.graphClient
+      .api(`/teams/${id}/channels/${channelID}/messages`)
+      .get();
+
+      console.log(result)
+
+      let loop: boolean = true;
+      data = result.value;
+      do
+      {
+        if(result['@odata.nextLink'] == undefined)
+          loop = false;
+        else
+        {
+          result = await this.graphClient.api(result['@odata.nextLink']).get();
+          console.log(result)
+          data = data.concat(result.value)
+        }
+      }
+      while(loop == true)
+
+      data = data.filter(element => element.messageType == "unknownFutureValue");
+      
+      return data;
+
+    } catch (error) {
+      this.alertsService.addError('Error while fetching Meeting List', JSON.stringify(error, null, 2))
+    }
+
+    return data;
+  }
+
+  async getListMessage(id: any, channelID: any, meetingID: any) {
 
     let chats: Array<Users> = [];
     var myCurrentDate = new Date();
@@ -94,7 +131,7 @@ export class GraphService {
         // .get();
 
         let result = await this.graphClient
-        .api(`/teams/${id}/channels/${channelID}/messages`)
+        .api(`/teams/${id}/channels/${channelID}/messages/${meetingID}/replies`)
         .get();
 
         //let test =  await this.graphClient.api(`teams/${id}/channels/${channelID}/messages/1638961389492/replies`).get()
@@ -122,6 +159,8 @@ export class GraphService {
       // const dateNowMinusEightHours = new Date(new Date(dateNow).getDate() - 1000 * 60 * 60 * 8)
       // console.log(dateNow)
 
+      data = data.filter(element => element.messageType == "message");
+      
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
         if(!chats.find(x => x.studentId == element.from?.user?.id)){
             chats.push({
