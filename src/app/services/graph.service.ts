@@ -80,13 +80,23 @@ export class GraphService {
   }
 
 
-  async getListMeeting(id: any, channelID: any) {
+  async getListMeeting(id: any, channelID: any, startDate: Date, all: boolean) {
     let data: Array<MicrosoftGraph.ChatMessage> = [];
     try {
       
-      let result = await this.graphClient
-      .api(`/teams/${id}/channels/${channelID}/messages`)
-      .get();
+      let result: any;
+      
+      if(all){
+        result = await this.graphClient
+        .api(`/teams/${id}/channels/${channelID}/messages/delta`)
+        .get();
+      }
+      else {
+        result = await this.graphClient
+        .api(`/teams/${id}/channels/${channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${startDate.toISOString()}`)
+        .get();
+      }
+      
 
       console.log(result)
 

@@ -3,14 +3,14 @@
       <div class="c-card animatezoom">
         <div class="c-card__body">
           <div class="u-text--center" id="winner">
-            <div class="u-text-small u-text--medium u-mb--16">Top Student Last Week</div>
+            <div class="u-text-small u-text--medium u-mb--16">Current CLass</div>
               <div ngAnimatedBorderWrapper>
                 <div ngAnimatedBorder [abBackgroundColor]="'#333'" [abBorderWidth]="['51px']" [abBorderRadius]="['50%']" class="c-avatar c-avatar--lg img-animation">
-                  <img class="c-avatar c-avatar--lg" src="../../assets/no-profile-photo.png"/>
+                  <img class="c-avatar c-avatar--lg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"/>
                 </div>
               </div>  
-              <h3 class="u-mt--16">Test</h3>
-              <span class="u-text--teal u-text--small">Test</span>
+              <h3 class="u-mt--16">{{class}}</h3>
+              <span class="u-text--teal u-text--small">{{code}}</span>
           </div>
         </div>
       </div>
@@ -18,9 +18,12 @@
     <div class="l-grid__item animateslide">
       <div class="c-card">
         <div class="c-card__header">
-          <h3>{{class}}</h3>
-          <select class="c-select animatezoom">
-            <option selected="selected">{{myPastDate | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>
+          <h3>{{code}}</h3>
+          <select class="c-select animatezoom" #event (change)="selectEvent(event.value)">
+            <option value="4" selected="selected">All Meetings</option>
+            <option value="1">{{myPastDate | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>
+            <option value="2">{{myPastDate1 | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>
+            <option value="3">{{myPastDate2 | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>
           </select>
         </div>
         <app-spinner *ngIf="loading"></app-spinner>
@@ -33,7 +36,7 @@
                 <div class="u-text--right u-text--small u-text--medium">Choose</div>
               </div>
             </li>
-            <li class="c-list__item" style="cursor: pointer;" *ngFor="let meeting of meetings | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
+            <li class="c-list__item" *ngFor="let meeting of meetings | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
               <div class="c-list__grid">
                 <div style="margin-top: 0.3rem; margin-left: 0.3rem;" class="c-place u-text--light u-bg-- u-bg--transparent">{{meetings.indexOf(meeting)+1}}</div>
                 <div class="c-media">
@@ -41,7 +44,7 @@
                     <div class="c-media__title">{{meeting.createdDateTime | date: 'mediumDate'}}</div>
                   </div>
                 </div>
-                <div class="u-text--right c-kudos" (click)="directLeaderboard(meeting.id)">
+                <div style="cursor: pointer;" class="u-text--right c-kudos" (click)="directLeaderboard(meeting.id)">
                   <div class="u-mt--8 u-text--yellow">
                     <strong>Select</strong>
                   </div>

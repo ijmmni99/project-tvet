@@ -1,7 +1,7 @@
 <app-spinner *ngIf="loading"></app-spinner>
 <div class="l-grid-col">
     <div class="animatezoom l-grid-child" *ngFor="let c of channels">
-      <div class="c-card" (click)="directChannel(c.teamsID, c.channelID, c.subjectCode)">
+      <div class="c-card" (click)="directChannel(c.teamsID, c.channelID, c.subjectCode, c.subjectName)">
         <div class="c-card__body">
           <div class="u-text--center" id="winner">
             <div class="u-text-small u-text--medium u-mb--16">{{c.subjectCode}}</div>

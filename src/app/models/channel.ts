@@ -6,6 +6,6 @@ export class Channel {
     subjectName!: string;
     teamsID!: string;
     channelID!: string;
-    lecturerID?: Lecturer
+    lecturerID!: Lecturer
     students?: Users[]
   }

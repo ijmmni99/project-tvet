@@ -36,12 +36,12 @@ export class ChannelsComponent implements OnInit {
     }   
   }
 
-  directChannel(id: any, channelID: any, subjectCode: any) {
+  directChannel(id: any, channelID: any, subjectCode: any, subjectClass: any) {
 
     this.loading = true;
 
     this.router.navigateByUrl('meetings', {
-      state: {id: id, channelID: channelID, class: subjectCode}
+      state: {id: id, channelID: channelID, code: subjectCode, class: subjectClass}
   }).then(_ => {
     this.loading = false;
   });
