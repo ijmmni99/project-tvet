@@ -295,6 +295,19 @@ button, select {
     margin-top: 0.4rem;
   }
 }
+
+.c-list__gridleaderboard {
+  display: grid;
+  grid-template-columns: 4.8rem 3fr 1fr 1fr;
+  grid-column-gap: 2.4rem;
+}
+@media screen and (max-width: 700px) {
+  .c-list__gridleaderboard {
+    grid-template-columns: 3.2rem 3fr 1fr 1fr;
+    grid-column-gap: 0.8rem;
+  }
+}
+
 .c-list__grid {
   display: grid;
   grid-template-columns: 4.8rem 3fr 1fr;
@@ -760,7 +773,7 @@ button, select {
 .menu {
   border-radius: 0.4rem;
   position: relative;
-  width: 15rem;
+  width: 12rem;
   font-size: 1.3rem;
   font-weight: bold;
   color: #687f98;
@@ -774,6 +787,40 @@ button, select {
   cursor: pointer;
   box-shadow: 0rem 0rem 3rem darken(#eef3f6, 5%);
   z-index: 2;
+}
+
+.menu:hover {
+  transform: scale(1.07);
+  transition: all 120ms ease-out 0s;
+}
+
+.menu-small {
+  border-radius: 0.4rem;
+  position: relative;
+  margin-right: 16px;
+  width: 8rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #687f98;
+  background-color: var(--container-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.28, 0.25, 0.36, 1.28);
+  padding: 1.8rem 2.4rem;
+  cursor: pointer;
+  box-shadow: 0rem 0rem 3rem darken(#eef3f6, 5%);
+  z-index: 2;
+}
+
+.menu-small:hover {
+  transform: scale(1.07);
+  transition: all 120ms ease-out 0s;
+}
+
+.hide-menu {
+  display: flex;
 }
 
 .menu__icon-box {
@@ -792,7 +839,7 @@ button, select {
 }
 
 .menu__dropdown {
-  width: 15rem;
+  width: 12rem;
   font-weight: lighter;
   margin-left: -2.4rem;
   position: absolute;
@@ -814,7 +861,7 @@ button, select {
 }
 
 .menu__dropdown-option:hover {
-  background-color: #e8f0fc;
+  background-color: var(--light);
 }
 
 .menu__active {
@@ -841,6 +888,9 @@ button, select {
   
   @media screen and (min-width: 1024px) {
     .menu {
+      display: none;
+    }
+    .hide-menu {
       display: none;
     }
   }

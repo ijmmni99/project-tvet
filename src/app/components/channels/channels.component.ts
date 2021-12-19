@@ -24,6 +24,7 @@ export class ChannelsComponent implements OnInit {
     this.loading = true;
     if(this.authService.isStudent){
       this.channelService.getAll().subscribe(data => {
+        console.log(data)
         this.channels = data;
         this.loading = false;
       });
@@ -36,12 +37,13 @@ export class ChannelsComponent implements OnInit {
     }   
   }
 
-  directChannel(id: any, channelID: any, subjectCode: any, subjectClass: any) {
+
+  directChannel(channel: Channel) {
 
     this.loading = true;
 
     this.router.navigateByUrl('meetings', {
-      state: {id: id, channelID: channelID, code: subjectCode, class: subjectClass}
+      state: {channel: channel}
   }).then(_ => {
     this.loading = false;
   });
@@ -50,5 +52,20 @@ export class ChannelsComponent implements OnInit {
 
     
   }
+
+  // directChannel(id: any, channelID: any, subjectCode: any, subjectClass: any) {
+
+  //   this.loading = true;
+
+  //   this.router.navigateByUrl('meetings', {
+  //     state: {id: id, channelID: channelID, code: subjectCode, class: subjectClass}
+  // }).then(_ => {
+  //   this.loading = false;
+  // });
+
+    
+
+    
+  // }
 
 }

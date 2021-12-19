@@ -9,8 +9,8 @@
                   <img class="c-avatar c-avatar--lg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"/>
                 </div>
               </div>  
-              <h3 class="u-mt--16">{{class}}</h3>
-              <span class="u-text--teal u-text--small">{{code}}</span>
+              <h3 class="u-mt--16">{{channel.subjectName}}</h3>
+              <span class="u-text--teal u-text--small">{{channel.subjectCode}}</span>
           </div>
         </div>
       </div>
@@ -18,7 +18,7 @@
     <div class="l-grid__item animateslide">
       <div class="c-card">
         <div class="c-card__header">
-          <h3>{{code}}</h3>
+          <h3>{{channel.subjectCode}}</h3>
           <select class="c-select animatezoom" #event (change)="selectEvent(event.value)">
             <option value="4" selected="selected">All Meetings</option>
             <option value="1">{{myPastDate | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>

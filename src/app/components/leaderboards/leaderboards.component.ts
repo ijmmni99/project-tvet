@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Channel } from 'src/app/models/channel';
 import { User } from 'src/app/models/user';
 import { Users } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
@@ -92,12 +93,12 @@ export class LeaderboardsComponent implements OnInit {
 
 
   chats: Array<Users> = [];
-  class = "BITP 2314";
   page:number = 1;
   channelChoose: boolean = false;
   dataSource: any[] | undefined;
   loading: boolean = false;
   winner: string = '';
+  channel: Channel = new Channel();
 
   myCurrentDate: Date;
   myPastDate: Date;
@@ -117,8 +118,8 @@ export class LeaderboardsComponent implements OnInit {
     this.myPastDate.setDate(this.myPastDate.getDate() - 14);
 
     if(this.router.getCurrentNavigation()?.extras.state){
-      this.class = this.router.getCurrentNavigation()!.extras!.state!.class;
-      this.setData(this.router.getCurrentNavigation()!.extras!.state!.id, this.router.getCurrentNavigation()!.extras!.state!.channelID, this.router.getCurrentNavigation()!.extras!.state!.messageID);
+      this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
+      this.setData(this.channel, this.router.getCurrentNavigation()!.extras!.state!.messageID);
     }   
     else
       this.router.navigate(['']);
@@ -128,9 +129,9 @@ export class LeaderboardsComponent implements OnInit {
 
   }
 
-  setData(id: string, channelID: string, meetingID: string): void {
+  setData(channel: Channel, meetingID: string): void {
     this.loading = true;
-    this.graphService.getListMessage(id, channelID, meetingID).then((data: Array<Users>) => {
+    this.graphService.getListMessage(channel, meetingID).then((data: Array<Users>) => {
       this.chats = data;
       this.winner = data[0].name!;
     }).then( _ => {

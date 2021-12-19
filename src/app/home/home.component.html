@@ -12,16 +12,22 @@
             <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelRegister()" matTooltip="Register new subject">Register Channel</button>
             <button class="c-button c-button--primary" role="button" (click)="signOut()" >Sign Out</button>  
         </div>
-        <div class="menu" [ngClass]="{'menu__active': showMyClass}" id="menu-drop" (click)="clickEvent()">
-          <span class="select">Menu</span>
-          <div class="menu__icon-box">
-              <div class="menu__icon"></div>
+        <div class="hide-menu">
+          <div class="menu-small" *ngIf="this.router.url != '/'" (click)="back()">
+            Back
           </div>
-          <div class="menu__dropdown">
-            <div class="menu__dropdown-option" (click)="channelRegister()">Register Channel</div>
-            <div class="menu__dropdown-option" (click)="signOut()">Sign Out</div>
+          <div class="menu" [ngClass]="{'menu__active': showMyClass}" id="menu-drop" (click)="clickEvent()">
+            <span class="select">Menu</span>
+            <div class="menu__icon-box">
+                <div class="menu__icon"></div>
+            </div>
+            <div class="menu__dropdown">
+              <div class="menu__dropdown-option" (click)="channelRegister()">Register Channel</div>
+              <div class="menu__dropdown-option" (click)="signOut()">Sign Out</div>
+            </div>
           </div>
         </div>
+        
       </ng-template>
       <ng-template #studentPage>
         <div class="nav-full">
@@ -30,13 +36,18 @@
           <!-- <button style="margin-right: 16px;" class="c-button c-button--primary" role="button" (click)="channelAdd()" matTooltip="Add new subject">Add Channel</button> -->
           <button class="c-button c-button--primary"  role="button" (click)="signOut()" >Sign Out</button>  
       </div>
-      <div class="menu" [ngClass]="{'menu__active': showMyClass}" id="menu-drop" (click)="clickEvent()">
-        <span class="select">Menu</span>
-        <div class="menu__icon-box">
-            <div class="menu__icon"></div>
+      <div class="hide-menu">
+        <div class="menu-small" *ngIf="this.router.url != '/'" (click)="back()">
+          Back
         </div>
-        <div class="menu__dropdown">
-          <div class="menu__dropdown-option" (click)="signOut()">Sign Out</div>
+        <div class="menu" [ngClass]="{'menu__active': showMyClass}" id="menu-drop" (click)="clickEvent()">
+          <span class="select">Menu</span>
+          <div class="menu__icon-box">
+              <div class="menu__icon"></div>
+          </div>
+          <div class="menu__dropdown">
+            <div class="menu__dropdown-option" (click)="signOut()">Sign Out</div>
+          </div>
         </div>
       </div>
       </ng-template>

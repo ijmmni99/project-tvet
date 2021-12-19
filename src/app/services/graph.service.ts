@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { AlertsService } from '../services/alerts.service';
 import { Users } from '../models/users';
 import { DatePipe } from '@angular/common';
+import { Channel } from '../models/channel';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,8 @@ export class GraphService {
         members.push({
           studentId: element.userId,
           name: element.displayName,
-          messageCount: 0
+          messageCount: 0,
+          messageAskCount: 0
         })
       })
 
@@ -80,7 +82,7 @@ export class GraphService {
   }
 
 
-  async getListMeeting(id: any, channelID: any, startDate: Date, all: boolean) {
+  async getListMeeting(channel: Channel, startDate: Date, all: boolean) {
     let data: Array<MicrosoftGraph.ChatMessage> = [];
     try {
       
@@ -88,12 +90,12 @@ export class GraphService {
       
       if(all){
         result = await this.graphClient
-        .api(`/teams/${id}/channels/${channelID}/messages/delta`)
+        .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/delta`)
         .get();
       }
       else {
         result = await this.graphClient
-        .api(`/teams/${id}/channels/${channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${startDate.toISOString()}`)
+        .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${startDate.toISOString()}`)
         .get();
       }
       
@@ -126,7 +128,7 @@ export class GraphService {
     return data;
   }
 
-  async getListMessage(id: any, channelID: any, meetingID: any) {
+  async getListMessage(channel: Channel, meetingID: any) {
 
     let chats: Array<Users> = [];
     var myCurrentDate = new Date();
@@ -141,7 +143,7 @@ export class GraphService {
         // .get();
 
         let result = await this.graphClient
-        .api(`/teams/${id}/channels/${channelID}/messages/${meetingID}/replies`)
+        .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/${meetingID}/replies`)
         .get();
 
         //let test =  await this.graphClient.api(`teams/${id}/channels/${channelID}/messages/1638961389492/replies`).get()
@@ -170,19 +172,20 @@ export class GraphService {
       // console.log(dateNow)
 
       data = data.filter(element => element.messageType == "message");
-      
+
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
         if(!chats.find(x => x.studentId == element.from?.user?.id)){
             chats.push({
             studentId: element.from?.user?.id,
             name: element.from?.user?.displayName,
-            messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length
+            messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length,
+            messageAskCount: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length
           });
         }
       });
 
       chats = chats.sort((a, b) => b.messageCount - a.messageCount);
-      
+
       return chats;
 
     } catch (error) {

@@ -4,6 +4,7 @@ import { Users } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { GraphService } from 'src/app/services/graph.service';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
+import { Channel } from 'src/app/models/channel';
 
 @Component({
   selector: 'app-meetings',
@@ -13,12 +14,9 @@ import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 export class MeetingsComponent implements OnInit {
 
   meetings: Array<MicrosoftGraph.ChatMessage> = [];
-  class = "";
-  code = "";
   page:number = 1;
   loading: boolean = false;
-  teamsid: string = '';
-  channelID: string = '';
+  channel: Channel = new Channel();
   myCurrentDate: Date;
   myPastDate: Date;
   myCurrentDate1: Date;
@@ -45,11 +43,8 @@ export class MeetingsComponent implements OnInit {
     this.myPastDate2.setDate(this.myCurrentDate2.getDate() - 7);
 
     if(this.router.getCurrentNavigation()?.extras.state){
-      this.class = this.router.getCurrentNavigation()!.extras!.state!.class;
-      this.code = this.router.getCurrentNavigation()!.extras!.state!.code;
-      this.teamsid = this.router.getCurrentNavigation()!.extras!.state!.id;
-      this.channelID = this.router.getCurrentNavigation()!.extras!.state!.channelID;
-      this.setData(this.teamsid, this.channelID,this.myPastDate, true);
+      this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
+      this.setData(this.channel,this.myPastDate, true);
     }   
     else
       this.router.navigate(['']);
@@ -58,9 +53,9 @@ export class MeetingsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  setData(id: string, channelID: string, startDate: Date, all: boolean): void {
+  setData(channel: Channel, startDate: Date, all: boolean): void {
     this.loading = true;
-    this.graphService.getListMeeting(id, channelID, startDate, all).then((data: Array<MicrosoftGraph.ChatMessage>) => {
+    this.graphService.getListMeeting(channel, startDate, all).then((data: Array<MicrosoftGraph.ChatMessage>) => {
       this.meetings = data;
     }).then( _ => {
       this.loading = false;
@@ -71,7 +66,7 @@ export class MeetingsComponent implements OnInit {
     this.loading = true;
 
     this.router.navigateByUrl('leaderboards', {
-      state: {id: this.teamsid, channelID: this.channelID, class: this.class, messageID: meetingID}
+      state: {channel: this.channel, messageID: meetingID}
   }).then(_ => {
     this.loading = false;
   });
@@ -80,16 +75,16 @@ export class MeetingsComponent implements OnInit {
   selectEvent(option: string) {
     switch(option) {
       case "1":
-        this.setData(this.teamsid, this.channelID, this.myPastDate, false)
+        this.setData(this.channel, this.myPastDate, false)
          break;
       case "2":
-        this.setData(this.teamsid, this.channelID, this.myPastDate1, false)
+        this.setData(this.channel, this.myPastDate1, false)
          break;
       case "3":
-        this.setData(this.teamsid, this.channelID, this.myPastDate2, false)
+        this.setData(this.channel, this.myPastDate2, false)
          break;
       case "4":
-        this.setData(this.teamsid, this.channelID, this.myPastDate2, true)
+        this.setData(this.channel, this.myPastDate2, true)
          break;
     }
   }
