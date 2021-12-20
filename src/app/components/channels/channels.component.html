@@ -5,7 +5,7 @@
         <div class="c-card__body">
           <div class="u-text--center" id="winner">
             <div class="u-text-small u-text--medium u-mb--16">{{c.subjectCode}}</div>
-              <img class="c-avatar c-avatar--lg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"/>
+              <img class="c-avatar c-avatar--lg" [src]="c.imgUrl ? c.imgUrl : dummyImg"/>
               <h3 class="u-mt--16">{{c.subjectName}}</h3>
               <span class="u-text--teal u-text--small">{{c.lecturerID?.name}}</span>
           </div>

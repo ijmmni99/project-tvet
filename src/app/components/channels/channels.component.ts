@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Channel } from 'src/app/models/channel';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
+import { GraphService } from 'src/app/services/graph.service';
 
 @Component({
   selector: 'app-channels',
@@ -12,11 +14,10 @@ import { ChannelRegisterServiceService } from 'src/app/services/channel-register
 export class ChannelsComponent implements OnInit {
 
   channels: Channel[] | null = [];
-
- 
+  dummyImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"
   loading: boolean = false;
   
-  constructor(private router: Router, private authService: AuthService, private channelService: ChannelRegisterServiceService) { 
+  constructor(private router: Router, private sanitizer: DomSanitizer, private authService: AuthService, private channelService: ChannelRegisterServiceService, private graphService: GraphService) { 
     
   }
 
@@ -30,8 +31,16 @@ export class ChannelsComponent implements OnInit {
       });
     }
     else{
-      this.channelService.getAllbyID().subscribe(data => {
+      this.channelService.getAllbyID().toPromise().then(data => {
+        console.log(data)
         this.channels = data.body;
+        this.channels?.forEach(element => {
+          this.getSantizeUrl(element.teamsID).then(meta => {
+            element.imgUrl = meta
+          })
+        })
+
+        console.log(this.channels)
         this.loading = false;
       });
     }   
@@ -47,10 +56,18 @@ export class ChannelsComponent implements OnInit {
   }).then(_ => {
     this.loading = false;
   });
-
     
+  }
 
-    
+  async getSantizeUrl(teamsID: string) {
+    let imgBlob = await this.graphService.getTeamPhoto(teamsID);
+
+    if(!imgBlob) {
+      return null;
+    }
+    const url = window.URL || window.webkitURL;
+    let imgurl = url.createObjectURL(imgBlob)
+    return this.sanitizer.bypassSecurityTrustUrl(imgurl);
   }
 
   // directChannel(id: any, channelID: any, subjectCode: any, subjectClass: any) {

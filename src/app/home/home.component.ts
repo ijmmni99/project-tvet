@@ -37,9 +37,7 @@ export class HomeComponent implements OnInit {
   }
 
   async signIn(): Promise<void> {
-    await this.authService.signIn().then(_ => {
-      this.alertService.addSuccess('Successfully Login');
-    });
+    await this.authService.signIn()
   }
 
   signOut(): void {

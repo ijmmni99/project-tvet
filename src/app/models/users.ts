@@ -5,4 +5,5 @@ export class Users {
     name!: NullableOption<string> | undefined;
     messageCount!: number;
     messageAskCount!: NullableOption<number>;
+    imgUrl!: Blob;
   }

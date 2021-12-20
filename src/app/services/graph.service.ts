@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { Client } from '@microsoft/microsoft-graph-client';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 
@@ -7,6 +7,7 @@ import { AlertsService } from '../services/alerts.service';
 import { Users } from '../models/users';
 import { DatePipe } from '@angular/common';
 import { Channel } from '../models/channel';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class GraphService {
   private graphClient: Client;
   constructor(
     private authService: AuthService,
-    private alertsService: AlertsService) {
+    private alertsService: AlertsService,
+    private http: HttpClient) {
 
     // Initialize the Graph client
     this.graphClient = Client.init({
@@ -39,15 +41,63 @@ export class GraphService {
     });
   }
 
-  async getPhoto(){
+  async getPhoto(members: Users[]){
     try {
-      const result = await this.graphClient
-        .api('/me/photo')
+
+      members.forEach(async (element) =>  {
+        let result = await this.graphClient
+        .api(`/users/${element.studentId}/photo/$value`)
         .get();
-      
-      console.log(result)
+
+        console.log(result)
+        element.imgUrl = result
+      })
+
+      return members;
+
     } catch (error) {
-      this.alertsService.addError('Could not get Photo', JSON.stringify(error, null, 2));
+      this.alertsService.addError('Failed : ' + error);
+    }
+
+    return members;
+  }
+
+  async getTeamPhoto(teamsID: string){
+    try {
+      const token = await this.authService.getAccessToken()
+          .catch((reason) => {
+            this.alertsService.addError('Failed : ' + reason);
+          });
+
+        if (token)
+        {
+          let response = await this.http.get(`https://graph.microsoft.com/beta/teams/${teamsID}/photo/$value`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+          },
+          responseType: 'blob'
+          }).toPromise().then(response => {
+            console.log(response)
+            return response;
+          })
+
+          if(response) {
+            return response
+          }
+          else
+            return null
+          
+
+        } else {
+          this.alertsService.addError('Failed : ');
+          return null
+        }
+      //return result;
+
+    } catch (error) {
+      this.alertsService.addError('Failed : ' + error);
+      return null
+      
     }
   }
 
@@ -66,11 +116,11 @@ export class GraphService {
           studentId: element.userId,
           name: element.displayName,
           messageCount: 0,
-          messageAskCount: 0
+          messageAskCount: 0,
+          imgUrl: new Blob
         })
       })
 
-      console.log(members);
       return members;
     }
     catch (error) {
@@ -173,20 +223,38 @@ export class GraphService {
 
       data = data.filter(element => element.messageType == "message");
 
+      let filterData = channel.students!.map(item => { return item.studentId; });
+      data = data.filter(item => filterData.includes(item.from?.user?.id));
+
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
         if(!chats.find(x => x.studentId == element.from?.user?.id)){
             chats.push({
             studentId: element.from?.user?.id,
             name: element.from?.user?.displayName,
             messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length,
-            messageAskCount: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length
+            messageAskCount: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length,
+            imgUrl: new Blob()
           });
+        }
+      });
+
+      channel.students!.forEach(element => {
+        if(!chats.find(x => x.studentId == element.studentId)) {
+          chats.push({
+              studentId: element.studentId,
+              name: element.name,
+              messageCount: data.filter(y => y.from?.user?.id == element.studentId).length,
+              messageAskCount: data.filter(y => y.from?.user?.id == element.studentId&& y.body?.content?.includes('?')).length,
+              imgUrl: new Blob()
+          })
         }
       });
 
       chats = chats.sort((a, b) => b.messageCount - a.messageCount);
 
-      return chats;
+      this.getPhoto(chats).then(_ => {
+        return _;
+      });
 
     } catch (error) {
 

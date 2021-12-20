@@ -12,7 +12,7 @@ import { Channel } from 'src/app/models/channel';
   styleUrls: ['./meetings.component.css']
 })
 export class MeetingsComponent implements OnInit {
-
+  
   meetings: Array<MicrosoftGraph.ChatMessage> = [];
   page:number = 1;
   loading: boolean = false;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Channel } from 'src/app/models/channel';
 import { User } from 'src/app/models/user';
@@ -97,7 +98,7 @@ export class LeaderboardsComponent implements OnInit {
   channelChoose: boolean = false;
   dataSource: any[] | undefined;
   loading: boolean = false;
-  winner: string = '';
+  winner: Users = new Users();
   channel: Channel = new Channel();
 
   myCurrentDate: Date;
@@ -111,7 +112,7 @@ export class LeaderboardsComponent implements OnInit {
     return this.authService.isStudent;
   }
 
-  constructor(private authService: AuthService, private router: Router, private graphService: GraphService) {
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private router: Router, private graphService: GraphService) {
     
     this.myCurrentDate = new Date();
     this.myPastDate= new Date(this.myCurrentDate);
@@ -119,6 +120,7 @@ export class LeaderboardsComponent implements OnInit {
 
     if(this.router.getCurrentNavigation()?.extras.state){
       this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
+      console.log(this.channel)
       this.setData(this.channel, this.router.getCurrentNavigation()!.extras!.state!.messageID);
     }   
     else
@@ -133,10 +135,23 @@ export class LeaderboardsComponent implements OnInit {
     this.loading = true;
     this.graphService.getListMessage(channel, meetingID).then((data: Array<Users>) => {
       this.chats = data;
-      this.winner = data[0].name!;
+
+      if(this.chats.length > 0)
+        this.winner = data[0];
     }).then( _ => {
       this.loading = false;
     })
   }
+
+  getSantizeUrl(imgBlob : Blob) {
+
+    if(!imgBlob) {
+      return null;
+    }
+
+    const url = window.URL || window.webkitURL;
+    let imgurl = url.createObjectURL(imgBlob)
+    return this.sanitizer.bypassSecurityTrustUrl(imgurl);
+}
 
 }

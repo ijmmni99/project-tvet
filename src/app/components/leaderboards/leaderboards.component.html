@@ -20,11 +20,11 @@
             <div class="u-text-small u-text--medium u-mb--16">Top Student Last Week</div>
               <div ngAnimatedBorderWrapper>
                 <div ngAnimatedBorder [abBackgroundColor]="'#333'" [abBorderWidth]="['51px']" [abBorderRadius]="['50%']" class="c-avatar c-avatar--lg img-animation">
-                  <img class="c-avatar c-avatar--lg" src="../../assets/no-profile-photo.png"/>
+                  <img class="c-avatar c-avatar--lg" [src]="getSantizeUrl(winner.imgUrl)"/>
                 </div>
               </div>  
-              <h3 class="u-mt--16">{{winner}}</h3>
-              <span class="u-text--teal u-text--small">{{winner}}</span>
+              <h3 class="u-mt--16">{{winner.name}}</h3>
+              <span class="u-text--teal u-text--small">{{winner.messageCount}}</span>
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
                 <div *ngIf="chats.indexOf(member)+1 == 3" class="c-flag c-place u-text--dark u-bg--orange u-bg--transparent">{{chats.indexOf(member)+1}}</div>
                 <div *ngIf="chats.indexOf(member)+1 != 1 && chats.indexOf(member)+1 != 2 && chats.indexOf(member)+1 != 3" class="c-flag c-place u-bg--transparent">{{chats.indexOf(member)+1}}</div>
                 <div class="c-media">
-                  <img class="c-avatar c-media__img" src="../../assets/no-profile-photo.png" />
+                  <img class="c-avatar c-media__img" [src]="getSantizeUrl(member.imgUrl)" />
                   <div class="c-media__content">
                     <div class="c-media__title">{{member.name}}</div>
                     <a class="c-media__link u-text--small" target="_blank">{{member.name}}</a>

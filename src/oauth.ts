@@ -13,6 +13,11 @@ export const OAuthSettings = {
       "Group.ReadWrite.All", 
       "Directory.ReadWrite.All",
       "TeamMember.Read.All",
-      "TeamMember.ReadWrite.All"
+      "TeamMember.ReadWrite.All",
+      "Team.ReadBasic.All",
+      "TeamSettings.Read.All",
+      "TeamSettings.ReadWrite.All",
+      "Group.ReadWrite.All",
+      "Directory.ReadWrite.All"
     ],
   };

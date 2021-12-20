@@ -42,8 +42,7 @@ export class AuthService {
       .loginPopup(OAuthSettings)
       .toPromise()
       .catch((reason) => {
-        this.alertsService.addError('Login failed',
-          JSON.stringify(reason, null, 2));
+        this.alertsService.addError('Login failed : ' + reason);
       });
 
     if (result) {
@@ -54,6 +53,8 @@ export class AuthService {
         this.isStudent = true
       else
         this.isStudent = false;
+
+      this.alertsService.addSuccess("Successfully Login");
       //this.user = await this.getUser();
     }
   }
