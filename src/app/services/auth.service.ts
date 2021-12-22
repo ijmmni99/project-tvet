@@ -21,7 +21,7 @@ export class AuthService {
   constructor(private msalService: MsalService, private alertsService: AlertsService) {
     this.authenticated = this.msalService.instance.getAllAccounts().length > 0;
     this.authUser = this.msalService.instance.getAllAccounts()[0]!;
-
+    //6ykc6n
     if(this.authUser){
       if(this.authUser.username.includes('student'))
         this.isStudent = true

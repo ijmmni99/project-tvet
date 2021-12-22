@@ -99,6 +99,8 @@ export class LeaderboardsComponent implements OnInit {
   dataSource: any[] | undefined;
   loading: boolean = false;
   winner: Users = new Users();
+  logStudentIndex: number = 0;
+  logStudentScore: number = 0;
   channel: Channel = new Channel();
 
   myCurrentDate: Date;
@@ -136,6 +138,11 @@ export class LeaderboardsComponent implements OnInit {
     this.graphService.getListMessage(channel, meetingID).then((data: Array<Users>) => {
       this.chats = data;
 
+      if(this.authService.isStudent){
+        this.logStudentIndex = this.chats.findIndex(element => element.studentId = this.authService.authUser.localAccountId);
+        this.logStudentScore = this.chats.find(element => element.studentId = this.authService.authUser.localAccountId)!.messageCount;
+      }
+      
       if(this.chats.length > 0)
         this.winner = data[0];
     }).then( _ => {

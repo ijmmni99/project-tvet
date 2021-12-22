@@ -8,6 +8,7 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { Lecturer } from '../models/lecturer';
 import { environment } from '../../environments/environment';
 import { Users } from '../models/users';
+import { Student } from '../models/student';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,7 @@ export class ChannelRegisterServiceService {
   })
 
   lecturer: Lecturer = new Lecturer();
+  student: Student = new Student();
 
   initializeFormGroup(){
     this.register_form.setValue({
@@ -64,13 +66,21 @@ export class ChannelRegisterServiceService {
     return this.httpClient.get<Channel[]>(`${this.API_SERVER}/channel/`)
   }
 
-  getAllbyID() {
-    this.lecturer.teacherId = this.authService.authUser.localAccountId;
-    return this.httpClient.post<Channel[]>( `${this.API_SERVER}/channel/lecturer/`, this.lecturer, {observe: 'response'});
+  getAllbyID(role: boolean) {
+
+    if(role) {
+      this.student.studentId = this.authService.authUser.localAccountId;
+      return this.httpClient.post<Channel[]>( `${this.API_SERVER}/channel/student/`, this.student, {observe: 'response'});
+    }
+    else {
+      this.lecturer.teacherId = this.authService.authUser.localAccountId;
+      return this.httpClient.post<Channel[]>( `${this.API_SERVER}/channel/lecturer/`, this.lecturer, {observe: 'response'});
+    }
+    
   }
 
   findChannel(id: string) {
-    return this.httpClient.get<Channel[]>(`${this.API_SERVER}/channel/${id}`)
+    return this.httpClient.get<Channel>(`${this.API_SERVER}/channel/${encodeURIComponent(id)}`)
   }
 
   addChannel(channel: Channel) {

@@ -5,11 +5,14 @@
           <div class="u-display--flex u-justify--space-between">
             <div class="u-text--left">
               <div class="u-text--small">My Rank</div>
-              <h2>3rd Place</h2>
+              <h2 *ngIf="logStudentIndex == 0">{{logStudentIndex+1}}st Place</h2>
+              <h2 *ngIf="logStudentIndex == 1">{{logStudentIndex+1}}nd Place</h2>
+              <h2 *ngIf="logStudentIndex == 2">{{logStudentIndex+1}}rd Place</h2>
+              <h2 *ngIf="logStudentIndex != 2 && logStudentIndex != 1 && logStudentIndex != 0">{{logStudentIndex+1}} Place</h2>
             </div>
             <div class="u-text--right">
               <div class="u-text--small">My Score</div>
-              <h2>25</h2>
+              <h2>{{logStudentScore}}</h2>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { GraphService } from 'src/app/services/graph.service';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { Channel } from 'src/app/models/channel';
+import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 
 @Component({
   selector: 'app-meetings',
@@ -25,7 +26,7 @@ export class MeetingsComponent implements OnInit {
   myPastDate2: Date;
 
 
-  constructor(private authService: AuthService, private router: Router, private graphService: GraphService) { 
+  constructor(private authService: AuthService,private channelService: ChannelRegisterServiceService, private router: Router, private graphService: GraphService) { 
     this.myCurrentDate = new Date();
     this.myPastDate= new Date(this.myCurrentDate);
     this.myPastDate.setDate(this.myPastDate.getDate() - 7);
@@ -65,11 +66,26 @@ export class MeetingsComponent implements OnInit {
   directLeaderboard(meetingID: any) {
     this.loading = true;
 
-    this.router.navigateByUrl('leaderboards', {
-      state: {channel: this.channel, messageID: meetingID}
-  }).then(_ => {
-    this.loading = false;
-  });
+    if(this.authService.isStudent){
+      this.channelService.findChannel(this.channel.channelID).toPromise().then(data => {
+        this.channel = data;
+  
+        this.router.navigateByUrl('leaderboards', {
+          state: {channel: this.channel, messageID: meetingID}
+      }).then(_ => {
+        this.loading = false;
+      });
+      })
+    }
+    else{
+      this.router.navigateByUrl('leaderboards', {
+        state: {channel: this.channel, messageID: meetingID}
+    }).then(_ => {
+      this.loading = false;
+    });
+    }
+    
+   
   }
 
   selectEvent(option: string) {

@@ -24,14 +24,21 @@ export class ChannelsComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     if(this.authService.isStudent){
-      this.channelService.getAll().subscribe(data => {
+      this.channelService.getAllbyID(true).toPromise().then(data => {
         console.log(data)
-        this.channels = data;
+        this.channels = data.body;
+        this.channels?.forEach(element => {
+          this.getSantizeUrl(element.teamsID).then(meta => {
+            element.imgUrl = meta
+          })
+        })
+
+        console.log(this.channels)
         this.loading = false;
       });
     }
     else{
-      this.channelService.getAllbyID().toPromise().then(data => {
+      this.channelService.getAllbyID(false).toPromise().then(data => {
         console.log(data)
         this.channels = data.body;
         this.channels?.forEach(element => {

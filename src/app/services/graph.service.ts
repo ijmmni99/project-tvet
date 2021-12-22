@@ -185,8 +185,6 @@ export class GraphService {
     var myPastDate = new Date(myCurrentDate);
     myPastDate.setDate(myPastDate.getDate() - 14);
 
-    console.log(myPastDate);
-
     try {  
         // let result = await this.graphClient
         // .api(`/teams/${id}/channels/${channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${myPastDate.toISOString()}`)
@@ -201,7 +199,6 @@ export class GraphService {
         //console.log(test);
         
 
-      console.log(result)
       let loop: boolean = true;
       let data: Array<MicrosoftGraph.ChatMessage> = result.value;
       do
@@ -211,7 +208,6 @@ export class GraphService {
         else
         {
           result = await this.graphClient.api(result['@odata.nextLink']).get();
-          console.log(result)
           data = data.concat(result.value)
         }
       }
