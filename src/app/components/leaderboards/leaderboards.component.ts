@@ -6,6 +6,8 @@ import { User } from 'src/app/models/user';
 import { Users } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { GraphService } from 'src/app/services/graph.service';
+import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
+
 
 @Component({
   selector: 'app-leaderboards',
@@ -101,6 +103,7 @@ export class LeaderboardsComponent implements OnInit {
   winner: Users = new Users();
   logStudentIndex: number = 0;
   logStudentScore: number = 0;
+  logStudentChats: Array<MicrosoftGraph.ChatMessage> = [];
   channel: Channel = new Channel();
 
   myCurrentDate: Date;
@@ -140,7 +143,8 @@ export class LeaderboardsComponent implements OnInit {
 
       if(this.authService.isStudent){
         this.logStudentIndex = this.chats.findIndex(element => element.studentId = this.authService.authUser.localAccountId);
-        this.logStudentScore = this.chats.find(element => element.studentId = this.authService.authUser.localAccountId)!.messageCount;
+        this.logStudentScore = this.chats.find(element => element.studentId = this.authService.authUser.localAccountId)!.messageCount.length;
+        this.logStudentChats = this.chats.find(element => element.studentId = this.authService.authUser.localAccountId)!.messageCount;
       }
       
       if(this.chats.length > 0)
@@ -148,6 +152,16 @@ export class LeaderboardsComponent implements OnInit {
     }).then( _ => {
       this.loading = false;
     })
+  }
+
+  directNotes() {
+    this.loading = true;
+
+    this.router.navigateByUrl('notes', {
+      state: {chats: this.logStudentChats}
+  }).then(_ => {
+    this.loading = false;
+  });
   }
 
   getSantizeUrl(imgBlob : Blob) {

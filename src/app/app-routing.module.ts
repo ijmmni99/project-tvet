@@ -5,6 +5,7 @@ import { ChannelRegisterComponent } from './components/channel-register/channel-
 import { ChannelsComponent } from './components/channels/channels.component';
 import { LeaderboardsComponent } from './components/leaderboards/leaderboards.component';
 import { MeetingsComponent } from './components/meetings/meetings.component';
+import { NotesComponent } from './components/notes/notes.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'meetings', component: MeetingsComponent},
   { path: 'register-channel', component: ChannelRegisterComponent},
   { path: 'add-channel', component: AddChannelComponent},
+  { path: 'notes', component: NotesComponent},
 ];
 
 @NgModule({

@@ -1,9 +1,10 @@
 import { NullableOption } from "@microsoft/microsoft-graph-types";
+import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 
 export class Users {
     studentId!: NullableOption<string> | undefined;
     name!: NullableOption<string> | undefined;
-    messageCount!: number;
+    messageCount!: Array<MicrosoftGraph.ChatMessage>;
     messageAskCount!: NullableOption<number>;
     imgUrl!: Blob;
   }

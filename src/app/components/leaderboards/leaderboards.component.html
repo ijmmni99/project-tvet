@@ -27,10 +27,20 @@
                 </div>
               </div>  
               <h3 class="u-mt--16">{{winner.name}}</h3>
-              <span class="u-text--teal u-text--small">{{winner.messageCount}}</span>
+              <span class="u-text--teal u-text--small">{{winner.messageCount?.length}}</span>
           </div>
         </div>
       </div>
+
+      <div class="c-card animatezoom" style="cursor: pointer;" (click)="directNotes()">
+        <div class="c-card__body">
+          <div class="u-text--center" id="challenges">
+            <div class="u-text--primary u-text--primary u-mb--16">View Chat Notes</div>
+            <span class="u-text--light u-text--small">Click here to view your notes/chats in this lecture meeting.</span>
+          </div>
+        </div>
+      </div>
+
       <div class="c-card animatezoom">
         <div class="c-card__body">
           <div class="u-text--start" id="challenges">
@@ -44,6 +54,7 @@
           </div>
         </div>
       </div>
+      
     </div>
     <div class="l-grid__item animateslide">
       <div class="c-card">
@@ -99,22 +110,22 @@
                 </div>
                 <div *ngIf="chats.indexOf(member)+1 == 1" class="u-text--right c-kudos u-text--yellow">
                   <div class="u-mt--8">
-                    <strong>{{member.messageCount}}</strong>
+                    <strong>{{member.messageCount?.length}}</strong>
                   </div>
                 </div>
                 <div *ngIf="chats.indexOf(member)+1 == 2" class="u-text--right c-kudos u-text--teal">
                   <div class="u-mt--8">
-                    <strong>{{member.messageCount}}</strong>
+                    <strong>{{member.messageCount?.length}}</strong>
                   </div>
                 </div>
                 <div *ngIf="chats.indexOf(member)+1 == 3" class="u-text--right c-kudos u-text--orange">
                   <div class="u-mt--8">
-                    <strong>{{member.messageCount}}</strong>
+                    <strong>{{member.messageCount?.length}}</strong>
                   </div>
                 </div>
                 <div *ngIf="chats.indexOf(member)+1 != 1 && chats.indexOf(member)+1 != 2 && chats.indexOf(member)+1 != 3" class="u-text--right c-kudos">
                   <div class="u-mt--8">
-                    <strong>{{member.messageCount}}</strong>
+                    <strong>{{member.messageCount?.length}}</strong>
                   </div>
                 </div>
               </div>

@@ -115,7 +115,7 @@ export class GraphService {
         members.push({
           studentId: element.userId,
           name: element.displayName,
-          messageCount: 0,
+          messageCount: new Array<MicrosoftGraph.ChatMessage>(),
           messageAskCount: 0,
           imgUrl: new Blob
         })
@@ -227,7 +227,7 @@ export class GraphService {
             chats.push({
             studentId: element.from?.user?.id,
             name: element.from?.user?.displayName,
-            messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id).length,
+            messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id),
             messageAskCount: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length,
             imgUrl: new Blob()
           });
@@ -239,14 +239,14 @@ export class GraphService {
           chats.push({
               studentId: element.studentId,
               name: element.name,
-              messageCount: data.filter(y => y.from?.user?.id == element.studentId).length,
+              messageCount: data.filter(y => y.from?.user?.id == element.studentId),
               messageAskCount: data.filter(y => y.from?.user?.id == element.studentId&& y.body?.content?.includes('?')).length,
               imgUrl: new Blob()
           })
         }
       });
 
-      chats = chats.sort((a, b) => b.messageCount - a.messageCount);
+      chats = chats.sort((a, b) => b.messageCount.length - a.messageCount.length);
 
       this.getPhoto(chats).then(_ => {
         return _;
