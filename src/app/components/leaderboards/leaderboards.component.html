@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="c-card animatezoom" style="cursor: pointer;" (click)="directNotes()">
+      <div class="c-card animatezoom" style="cursor: pointer;" (click)="directNotes()" *ngIf="authenticated && isStudent">
         <div class="c-card__body">
           <div class="u-text--center" id="challenges">
             <div class="u-text--primary u-text--primary u-mb--16">View Chat Notes</div>
@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <div class="c-card animatezoom">
+      <div class="c-card animatezoom" *ngIf="authenticated && isStudent">
         <div class="c-card__body">
           <div class="u-text--start" id="challenges">
             <div class="u-text--primary u-text--primary u-mb--16">This Week Challenges:</div>
