@@ -108,6 +108,7 @@ export class LeaderboardsComponent implements OnInit {
 
   myCurrentDate: Date;
   myPastDate: Date;
+meeting: MicrosoftGraph.ChatMessage = {};
 
   get authenticated(): boolean {
     return this.authService.authenticated;
@@ -125,8 +126,9 @@ export class LeaderboardsComponent implements OnInit {
 
     if(this.router.getCurrentNavigation()?.extras.state){
       this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
+      this.meeting = this.router.getCurrentNavigation()!.extras!.state!.meeting;
       console.log(this.channel)
-      this.setData(this.channel, this.router.getCurrentNavigation()!.extras!.state!.messageID);
+      this.setData(this.channel, this.meeting);
     }   
     else
       this.router.navigate(['']);
@@ -136,9 +138,9 @@ export class LeaderboardsComponent implements OnInit {
 
   }
 
-  setData(channel: Channel, meetingID: string): void {
+  setData(channel: Channel, meeting: MicrosoftGraph.ChatMessage): void {
     this.loading = true;
-    this.graphService.getListMessage(channel, meetingID).then((data: Array<Users>) => {
+    this.graphService.getListMessage(channel, meeting.id).then((data: Array<Users>) => {
       this.chats = data;
 
       if(this.authService.isStudent){

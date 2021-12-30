@@ -63,7 +63,7 @@ export class MeetingsComponent implements OnInit {
     })
   }
 
-  directLeaderboard(meetingID: any) {
+  directLeaderboard(meeting: MicrosoftGraph.ChatMessage) {
     this.loading = true;
 
     if(this.authService.isStudent){
@@ -71,7 +71,7 @@ export class MeetingsComponent implements OnInit {
         this.channel = data;
   
         this.router.navigateByUrl('leaderboards', {
-          state: {channel: this.channel, messageID: meetingID}
+          state: {channel: this.channel, meeting: meeting}
       }).then(_ => {
         this.loading = false;
       });
@@ -79,7 +79,7 @@ export class MeetingsComponent implements OnInit {
     }
     else{
       this.router.navigateByUrl('leaderboards', {
-        state: {channel: this.channel, messageID: meetingID}
+        state: {channel: this.channel, meeting: meeting}
     }).then(_ => {
       this.loading = false;
     });

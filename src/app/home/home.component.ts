@@ -56,6 +56,10 @@ export class HomeComponent implements OnInit {
     this.location.back();
   }
 
+  home() {
+    this.router.navigateByUrl('/');
+  }
+
   clickEvent() {
     this.showMyClass = this.showMyClass ? false : true;
   }

@@ -61,7 +61,7 @@
         <div class="c-card__header">
           <h3>{{channel.subjectCode}}</h3>
           <select class="c-select animatezoom">
-            <option selected="selected">{{myPastDate | date: 'mediumDate'}} - {{myCurrentDate | date: 'mediumDate'}}</option>
+            <option selected="selected">{{meeting.createdDateTime | date: 'mediumDate'}}</option>
           </select>
         </div>
         <app-spinner *ngIf="loading"></app-spinner>
