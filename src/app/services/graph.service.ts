@@ -117,6 +117,7 @@ export class GraphService {
           name: element.displayName,
           messageCount: new Array<MicrosoftGraph.ChatMessage>(),
           messageAskCount: 0,
+          studentType: null,
           imgUrl: new Blob
         })
       })
@@ -223,12 +224,14 @@ export class GraphService {
       data = data.filter(item => filterData.includes(item.from?.user?.id));
 
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
+
         if(!chats.find(x => x.studentId == element.from?.user?.id)){
             chats.push({
             studentId: element.from?.user?.id,
             name: element.from?.user?.displayName,
             messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id),
             messageAskCount: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length,
+            studentType: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length > 20 ? 'Explorer' : 'Normal',
             imgUrl: new Blob()
           });
         }
@@ -241,6 +244,7 @@ export class GraphService {
               name: element.name,
               messageCount: data.filter(y => y.from?.user?.id == element.studentId),
               messageAskCount: data.filter(y => y.from?.user?.id == element.studentId&& y.body?.content?.includes('?')).length,
+              studentType: data.filter(y => y.from?.user?.id == element.studentId && y.body?.content?.includes('?')).length > 20 ? 'Explorer' : 'Normal',
               imgUrl: new Blob()
           })
         }
@@ -248,6 +252,8 @@ export class GraphService {
 
       chats = chats.sort((a, b) => b.messageCount.length - a.messageCount.length);
 
+      chats[0].studentType = 'Achiever';
+      
       this.getPhoto(chats).then(_ => {
         return _;
       });

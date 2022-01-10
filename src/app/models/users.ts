@@ -6,5 +6,6 @@ export class Users {
     name!: NullableOption<string> | undefined;
     messageCount!: Array<MicrosoftGraph.ChatMessage>;
     messageAskCount!: NullableOption<number>;
+    studentType!: NullableOption<string> | undefined;
     imgUrl!: Blob;
   }
