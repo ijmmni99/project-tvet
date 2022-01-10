@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <div class="c-card animatezoom" *ngIf="authenticated && isStudent">
+      <!-- <div class="c-card animatezoom" *ngIf="authenticated && isStudent">
         <div class="c-card__body">
           <div class="u-text--start" id="challenges">
             <div class="u-text--primary u-text--primary u-mb--16">This Week Challenges:</div>
@@ -53,7 +53,7 @@
               </table> 
           </div>
         </div>
-      </div>
+      </div> -->
       
     </div>
     <div class="l-grid__item animateslide">
@@ -85,7 +85,7 @@
                   <img class="c-avatar c-media__img" [src]="getSantizeUrl(member.imgUrl)" />
                   <div class="c-media__content">
                     <div class="c-media__title">{{member.name}}</div>
-                    <a class="c-media__link u-text--small" target="_blank">{{member.studentType}}</a>
+                    <div class="u-text--small u-text--primary">{{member.studentType}}</div>
                   </div>
                 </div>
                 <div *ngIf="chats.indexOf(member)+1 == 1" class="u-text--right c-kudos u-text--yellow">
