@@ -57,7 +57,9 @@ export class UpdateChannelComponent implements OnInit {
   OnUpdate() {
     this.service.updateChannel(this.service.register_form.value, this.students_registered).subscribe(data => {
       if(data.ok) {
+        console.log(data)
         this.alertService.addSuccess('Successfully Updated');
+        this.router.navigate(['']);
       }
       else{
         this.alertService.addError(data.statusText);
