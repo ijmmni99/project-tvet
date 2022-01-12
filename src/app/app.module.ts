@@ -25,6 +25,7 @@ import { AddChannelComponent } from './components/add-channel/add-channel.compon
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import { MeetingsComponent } from './components/meetings/meetings.component';
 import { NotesComponent } from './components/notes/notes.component';
+import { UpdateChannelComponent } from './components/update-channel/update-channel.component';
 
 let msalInstance: IPublicClientApplication | undefined = undefined;
 
@@ -57,7 +58,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     AddChannelComponent,
     AddStudentComponent,
     MeetingsComponent,
-    NotesComponent
+    NotesComponent,
+    UpdateChannelComponent
   ],
   imports: [
     BrowserModule,

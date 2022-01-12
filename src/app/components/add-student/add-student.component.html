@@ -10,14 +10,14 @@
             <div class="c-list__grid">
               <div class="u-text--left u-text--small u-text--medium">No</div>
               <div class="u-text--left u-text--small u-text--medium">Name</div>
-              <div class="u-text--right u-text--small u-text--medium">{{total}} Selected</div>
+              <div class="u-text--right u-text--small u-text--medium">Select</div>
             </div>
           </li>
           <li class="c-list__item"  *ngFor="let member of chats | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
             <div class="c-list__grid">
               <div class="c-flag c-place u-text--light u-bg-- u-bg--transparent">{{chats.indexOf(member)+1}}</div>
               <div class="c-media">
-                <img class="c-avatar c-media__img" src="../../assets/no-profile-photo.png" />
+                <img class="c-avatar c-media__img" [src]="getSantizeUrl(member.imgUrl)" />
                 <div class="c-media__content">
                   <div class="c-media__title">{{member.name}}</div>
                   <!-- <a class="c-media__link u-text--small" target="_blank">{{member.name}}</a> -->

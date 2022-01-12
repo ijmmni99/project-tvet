@@ -100,8 +100,16 @@ export class ChannelRegisterServiceService {
     return this.httpClient.post(`${this.API_SERVER}/channel/create/`, members, {observe: 'response'})
   }
 
-  updateChannel(id: string,channel: Channel) {
-    return this.httpClient.put<Channel>(`${this.API_SERVER}/channel/${id}/update`, channel);
+  // updateChannel(id: string,channel: Channel) {
+  //   return this.httpClient.put<Channel>(`${this.API_SERVER}/channel/${id}/update`, channel);
+  // }
+
+  updateChannel(channel: Channel, members: Users[]) {
+    this.lecturer.teacherId = this.authService.authUser.localAccountId;
+    channel.lecturerID = this.lecturer;
+    channel.students = members;
+
+    return this.httpClient.post<Channel>(`${this.API_SERVER}/channel/update/`, channel, {observe: 'response'})
   }
 
   deleteChannel(id: string) {

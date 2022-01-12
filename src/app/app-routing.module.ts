@@ -6,6 +6,7 @@ import { ChannelsComponent } from './components/channels/channels.component';
 import { LeaderboardsComponent } from './components/leaderboards/leaderboards.component';
 import { MeetingsComponent } from './components/meetings/meetings.component';
 import { NotesComponent } from './components/notes/notes.component';
+import { UpdateChannelComponent } from './components/update-channel/update-channel.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'leaderboards', component: LeaderboardsComponent },
   { path: 'meetings', component: MeetingsComponent},
   { path: 'register-channel', component: ChannelRegisterComponent},
+  { path: 'update-channel', component: UpdateChannelComponent},
   { path: 'add-channel', component: AddChannelComponent},
   { path: 'notes', component: NotesComponent},
 ];

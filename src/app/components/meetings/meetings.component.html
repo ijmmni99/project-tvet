@@ -12,6 +12,10 @@
               <h3 class="u-mt--16">{{channel.subjectName}}</h3>
               <span class="u-text--teal u-text--small">{{channel.subjectCode}}</span>
           </div>
+          <div class="u-text--center" style="margin-top: 8px;" *ngIf="!isStudent">
+            <button class="c-button u-text--teal u-text--small" (click)="navigateUpdate()">Update</button>
+          </div>
+          
         </div>
       </div>
     </div>

@@ -25,7 +25,10 @@ export class MeetingsComponent implements OnInit {
   myCurrentDate2: Date;
   myPastDate2: Date;
 
-
+  get isStudent(): boolean {
+    return this.authService.isStudent;
+  }
+  
   constructor(private authService: AuthService,private channelService: ChannelRegisterServiceService, private router: Router, private graphService: GraphService) { 
     this.myCurrentDate = new Date();
     this.myPastDate= new Date(this.myCurrentDate);
@@ -103,6 +106,16 @@ export class MeetingsComponent implements OnInit {
         this.setData(this.channel, this.myPastDate2, true)
          break;
     }
+  }
+
+  navigateUpdate() {
+    this.loading = true;
+
+      this.router.navigateByUrl('update-channel', {
+        state: {channel: this.channel}
+    }).then(_ => {
+      this.loading = false;
+  });
   }
 
 }
