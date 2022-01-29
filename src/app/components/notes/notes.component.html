@@ -1,8 +1,9 @@
 <app-spinner *ngIf="loading"></app-spinner>
 <div class="l-grid-col">
+  <div class="c-card">
+    <div class="c-card__body">
     <div class="animatezoom l-grid-child" *ngFor="let c of chats">
-      <div class="c-card">
-        <div class="c-card__body">
+      
           <div class="u-text--center" id="winner">
             <div class="u-text-small u-text--medium u-mb--16">{{c.from?.user?.displayName}}</div>
               <h3 class="u-mt--16">{{c.createdDateTime | date: 'mediumDate'}}</h3>

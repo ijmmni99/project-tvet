@@ -1,63 +1,109 @@
 <div class="l-grid">
-    <div class="l-grid__item l-grid__item--sticky">
-        <div class="c-card">
-            <div class="c-card__header">
-                <h3>Register Channel</h3>
-                <select [(ngModel)]="options" class="c-select animatezoom">
-                  <option [ngValue]="true" selected>IDs</option>
-                  <option [ngValue]="false">Link</option>
-                </select>
-            </div>
-            <div class="form">
-              <form [formGroup]="service.register_form" *ngIf="options">
-                <div class="input-container ic1">
-                  <input formControlName="subjectCode" id="subjectCode" class="input" type="text" placeholder=" " />
-                  <div class="cut"></div>
-                  <label for="subjectCode" class="placeholder">Subject Code</label>
-                </div>
-                <div class="input-container ic2">
-                    <input formControlName="subjectName" id="subjectName" class="input" type="text" placeholder=" " />
-                    <div class="cut cut-short"></div>
-                    <label for="subjectName" class="placeholder">Subject Name (short form)</label>
-                </div>
-                <div class="input-container ic2">
-                  <input matTooltip="Copy the channel link from teams, insert only the Teams ID" formControlName="teamsID" id="teamsID" class="input" type="text" placeholder=" " />
-                  <div class="cut"></div>
-                  <label for="teamsID" class="placeholder">Teams ID</label>
-                </div>
-                <div class="input-container ic2">
-                  <input matTooltip="Copy the channel link from teams, insert only the channel ID" formControlName="channelID" id="channelID" class="input" type="text" placeholder=" " />
-                  <div class="cut cut-short"></div>
-                  <label for="channelID" class="placeholder">Channel ID</label>
-                </div>
-                <button [disabled]="service.register_form.invalid" type="text" class="submit c-button--primary" (click)="OnSubmit()">Submit</button>
-              </form>
+  <div class="l-grid__item l-grid__item--sticky">
+    <div class="c-card">
+      <div class="c-card__header">
+        <h3>Register Channel</h3>
+        <select [(ngModel)]="options" class="c-select animatezoom">
+          <option [ngValue]="true" selected>IDs</option>
+          <option [ngValue]="false">Link</option>
+        </select>
+      </div>
+      <div class="form">
+        <form [formGroup]="service.register_form" *ngIf="options">
+          <div class="input-container ic1">
+            <input formControlName="subjectCode" id="subjectCode" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="subjectCode" class="placeholder">Subject Code</label>
+          </div>
+          <div class="input-container ic2">
+            <input formControlName="subjectName" id="subjectName" class="input" type="text" placeholder=" " />
+            <div class="cut cut-short"></div>
+            <label for="subjectName" class="placeholder">Subject Name (short form)</label>
+          </div>
+          <div class="input-container ic2">
+            <input matTooltip="Copy the channel link from teams, insert only the Teams ID" formControlName="teamsID"
+              id="teamsID" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="teamsID" class="placeholder">Teams ID</label>
+          </div>
+          <div class="input-container ic2">
+            <input matTooltip="Copy the channel link from teams, insert only the channel ID" formControlName="channelID"
+              id="channelID" class="input" type="text" placeholder=" " />
+            <div class="cut cut-short"></div>
+            <label for="channelID" class="placeholder">Channel ID</label>
+          </div>
+          <button [disabled]="service.register_form.invalid" type="text" class="submit c-button--primary"
+            (click)="OnSubmit()">Submit</button>
+        </form>
 
-              <form [formGroup]="service.register_form_link" *ngIf="!options">
-                <div class="input-container ic1">
-                  <input formControlName="subjectCode" id="subjectCode" class="input" type="text" placeholder=" " />
-                  <div class="cut"></div>
-                  <label for="subjectCode" class="placeholder">Subject Code</label>
-                </div>
-                <div class="input-container ic2">
-                    <input formControlName="subjectName" id="subjectName" class="input" type="text" placeholder=" " />
-                    <div class="cut cut-short"></div>
-                    <label for="subjectName" class="placeholder">Subject Name (short form)</label>
-                </div>
-                <div class="input-container ic2">
-                  <input  matTooltip="Copy the channel link from teams -> channel -> copy channel link" formControlName="teamsLink" id="teamsLink" class="input" type="text" placeholder=" " />
-                  <div class="cut"></div>
-                  <label for="teamsLink" class="placeholder">Teams Channel Link</label>
-                </div>
-                <button [disabled]="service.register_form_link.invalid || submitted" type="text" class="submit c-button--primary" (click)="OnNext()">Next</button>
-                <button *ngIf="submitted" type="text" class="submit c-button--primary" (click)="OnSubmit()">Submit</button>
-              </form>
-            </div>    
-        </div>
+        <form [formGroup]="service.register_form_link" *ngIf="!options">
+          <div class="input-container ic1">
+            <input formControlName="subjectCode" id="subjectCode" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="subjectCode" class="placeholder">Subject Code</label>
+          </div>
+          <div class="input-container ic2">
+            <input formControlName="subjectName" id="subjectName" class="input" type="text" placeholder=" " />
+            <div class="cut cut-short"></div>
+            <label for="subjectName" class="placeholder">Subject Name (short form)</label>
+          </div>
+          <div class="input-container ic2">
+            <input matTooltip="Copy the channel link from teams -> channel -> copy channel link"
+              formControlName="teamsLink" id="teamsLink" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="teamsLink" class="placeholder">Teams Channel Link</label>
+          </div>
+          <button [disabled]="service.register_form_link.invalid || submitted" type="text"
+            class="submit c-button--primary" (click)="OnNext()">Next</button>
+          <button *ngIf="submitted" type="text" class="submit c-button--primary" (click)="OnSubmit()">Submit</button>
+        </form>
+      </div>
     </div>
-        <div>
-            <app-add-student *ngIf='submitted' [teamid]='teamid' (addStudentData)="AddStudent($event)"></app-add-student>
-            <h3 style="text-align: center;">Channel List</h3>
-            <app-channels></app-channels>
+  </div>
+  <div>
+    <div class="c-card animateslide" *ngIf='submitted'>
+      <div class="c-card__header">
+        <h3>Current Student</h3><h3 class="u-text--teal" *ngIf="students.length > 0">{{students.length}} selected</h3>
+      </div>
+      <div class="c-card__body">
+        <div style="text-align: center;" *ngIf="students.length == 0">
+          <h2 class="u-text--yellow">No student selected</h2>
         </div>
+        <ul class="c-list" id="list" *ngIf="students.length > 0">
+          <li class="c-list__item">
+            <div class="c-list__grid">
+              <div class="u-text--left u-text--small u-text--medium">No</div>
+              <div class="u-text--left u-text--small u-text--medium">Name</div>
+              <div class="u-text--right u-text--small u-text--medium">Option</div>
+            </div>
+          </li>
+          <li class="c-list__item" *ngFor="let member of students | paginate: {id: 'add-student-paginate', itemsPerPage: 5, currentPage: page_add_student};let indexOfElement=index">
+            <div class="c-list__grid">
+              <div class="c-flag c-place u-text--light u-bg-- u-bg--transparent">
+                {{students.indexOf(member)+1}}</div>
+              <div class="c-media">
+                <img class="c-avatar c-media__img" [src]="getSantizeUrl(member.imgUrl)" />
+                <div class="c-media__content">
+                  <div class="c-media__title">{{member.name}}</div>
+                  <!-- <a class="c-media__link u-text--small" target="_blank">{{member.name}}</a> -->
+                </div>
+              </div>
+              <div class="u-text--right u-text--yellow" style="cursor: pointer;" (click)="RemoveStudent(member)">
+                <div class="u-mt--8">
+                  <strong class="c-button">Remove</strong>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li style="justify-content: center; display: flex;">
+            <pagination-controls id="add-student-paginate" [maxSize]="5" [directionLinks]="true" (pageChange)="page_add_student = $event"></pagination-controls>
+          </li>
+        </ul>
+      </div>
+      
+    </div>
+      <app-add-student *ngIf='submitted' [teamid]='teamid' (removeStudentAllData)="RemoveAllStudent($event)" (addStudentAllData)="AddStudentAll($event)" (addStudentData)="AddStudent($event)"></app-add-student>
+      <app-channels *ngIf='!submitted'></app-channels>
+  </div>
+  
 </div>

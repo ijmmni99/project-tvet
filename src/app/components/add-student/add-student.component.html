@@ -2,10 +2,23 @@
     <div class="c-card">
       <div class="c-card__header">
         <h3>Select Student</h3>
+        <div *ngIf="!selectAll" class="u-text--right u-text--teal" style="cursor: pointer;" (click)="AddAllStudent()">
+          <div class="u-mt--8">
+            <strong class="c-button">Select All</strong>
+          </div>
+        </div>
+        <div *ngIf="selectAll" class="u-text--right u-text--teal" style="cursor: pointer;" (click)="RemoveAllStudent()">
+          <div class="u-mt--8">
+            <strong class="c-button">Remove All</strong>
+          </div>
+        </div>
       </div>
       <app-spinner *ngIf="loading"></app-spinner>
       <div class="c-card__body">
-        <ul class="c-list" id="list">
+        <div style="text-align: center;" *ngIf="chats.length == 0">
+          <h2 class="u-text--yellow">There's no student</h2>
+        </div>
+        <ul class="c-list" id="list" *ngIf="chats.length > 0">
           <li class="c-list__item">
             <div class="c-list__grid">
               <div class="u-text--left u-text--small u-text--medium">No</div>

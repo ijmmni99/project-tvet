@@ -20,14 +20,14 @@
       <div class="c-card animatezoom">
         <div class="c-card__body">
           <div class="u-text--center" id="winner">
-            <div class="u-text-small u-text--medium u-mb--16">Top Student Last Week</div>
+            <div class="u-text-small u-text--medium u-mb--16">Top Student</div>
               <div ngAnimatedBorderWrapper>
                 <div ngAnimatedBorder [abBackgroundColor]="'#333'" [abBorderWidth]="['51px']" [abBorderRadius]="['50%']" class="c-avatar c-avatar--lg img-animation">
                   <img class="c-avatar c-avatar--lg" [src]="getSantizeUrl(winner.imgUrl)"/>
                 </div>
               </div>  
               <h3 class="u-mt--16">{{winner.name}}</h3>
-              <span class="u-text--teal u-text--small">{{winner.messageCount?.length}}</span>
+              <span class="u-text--teal u-text--small">{{winner.studentType}}</span>
           </div>
         </div>
       </div>

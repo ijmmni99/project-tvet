@@ -23,7 +23,7 @@ export class AuthService {
     this.authUser = this.msalService.instance.getAllAccounts()[0]!;
     //6ykc6n
     if(this.authUser){
-      if(this.authUser.username.includes('6ykc6n'))
+      if(this.authUser.username.includes('student'))
         this.isStudent = true
       else
         this.isStudent = false;

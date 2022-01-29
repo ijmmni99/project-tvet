@@ -6,6 +6,7 @@ import { GraphService } from 'src/app/services/graph.service';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { Channel } from 'src/app/models/channel';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-meetings',
@@ -29,7 +30,7 @@ export class MeetingsComponent implements OnInit {
     return this.authService.isStudent;
   }
   
-  constructor(private authService: AuthService,private channelService: ChannelRegisterServiceService, private router: Router, private graphService: GraphService) { 
+  constructor(private authService: AuthService, private sanitizer: DomSanitizer, private channelService: ChannelRegisterServiceService, private router: Router, private graphService: GraphService) { 
     this.myCurrentDate = new Date();
     this.myPastDate= new Date(this.myCurrentDate);
     this.myPastDate.setDate(this.myPastDate.getDate() - 7);
@@ -49,6 +50,9 @@ export class MeetingsComponent implements OnInit {
     if(this.router.getCurrentNavigation()?.extras.state){
       this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
       this.setData(this.channel,this.myPastDate, true);
+      this.getSantizeUrl(this.channel.teamsID).then(meta => {
+        this.channel.imgUrl = meta;
+      });
     }   
     else
       this.router.navigate(['']);
@@ -116,6 +120,17 @@ export class MeetingsComponent implements OnInit {
     }).then(_ => {
       this.loading = false;
   });
+  }
+
+  async getSantizeUrl(teamsID: string) {
+    let imgBlob = await this.graphService.getTeamPhoto(teamsID);
+
+    if(!imgBlob) {
+      return null;
+    }
+    const url = window.URL || window.webkitURL;
+    let imgurl = url.createObjectURL(imgBlob)
+    return this.sanitizer.bypassSecurityTrustUrl(imgurl);
   }
 
 }

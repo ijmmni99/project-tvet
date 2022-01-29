@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Users } from 'src/app/models/users';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
+import { AddStudentComponent } from '../add-student/add-student.component';
 
 @Component({
   selector: 'app-channel-register',
@@ -14,8 +16,11 @@ export class ChannelRegisterComponent implements OnInit {
   submitted: boolean = false;
   teamid: any;
   students: Array<Users> = [];
+  page_add_student:number = 1;
+  
+  @ViewChild(AddStudentComponent) add_student_child!: AddStudentComponent;
 
-  constructor(public service: ChannelRegisterServiceService, private alertService: AlertsService) { }
+  constructor(public service: ChannelRegisterServiceService, private sanitizer: DomSanitizer, private alertService: AlertsService) { }
 
   ngOnInit(): void {
   }
@@ -76,6 +81,38 @@ export class ChannelRegisterComponent implements OnInit {
 
   AddStudent(member: Users){
     this.students.push(member)
+    this.students = this.students.sort((a, b) => a.name!.toLowerCase().localeCompare(b.name!.toLowerCase()))
   }
+
+  AddStudentAll(member: Users[]) {
+
+    if(this.students.length == 0)
+     this.students = member;
+    else
+      this.students = [...this.students, ...member];
+      
+    this.students = this.students.sort((a, b) => a.name!.toLowerCase().localeCompare(b.name!.toLowerCase()))
+  }
+
+  RemoveStudent(member: Users) {
+    this.students = this.students.filter(item => item.studentId != member.studentId);
+    this.students = this.students.sort((a, b) => a.name!.toLowerCase().localeCompare(b.name!.toLowerCase()))
+    this.add_student_child.AddStudent(member);
+  }
+
+  RemoveAllStudent(event: any) {
+    this.students = [];
+  }
+
+  getSantizeUrl(imgBlob : Blob) {
+
+    if(!imgBlob) {
+      return null;
+    }
+
+    const url = window.URL || window.webkitURL;
+    let imgurl = url.createObjectURL(imgBlob)
+    return this.sanitizer.bypassSecurityTrustUrl(imgurl);
+}
 
 }

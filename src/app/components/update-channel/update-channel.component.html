@@ -43,10 +43,13 @@
     <div>
         <div class="c-card animateslide">
             <div class="c-card__header">
-                <h3>Current Student</h3>
+                <h3>Current Student</h3> <h3 class="u-text--teal" *ngIf="students_registered.length > 0">{{students_registered.length}} selected</h3>
             </div>
                 <div class="c-card__body">
-                    <ul class="c-list" id="list">
+                    <div style="text-align: center;" *ngIf="students_registered.length == 0">
+                        <h2 class="u-text--yellow">No student selected</h2>
+                      </div>
+                    <ul class="c-list" id="list" *ngIf="students_registered.length > 0">
                         <li class="c-list__item">
                             <div class="c-list__grid">
                                 <div class="u-text--left u-text--small u-text--medium">No</div>
@@ -54,7 +57,7 @@
                                 <div class="u-text--right u-text--small u-text--medium">Option</div>
                             </div>
                         </li>
-                        <li class="c-list__item" *ngFor="let member of students_registered;let indexOfElement=index">
+                        <li class="c-list__item" *ngFor="let member of students_registered | paginate: {id: 'update-student-paginate', itemsPerPage: 5, currentPage: page_update_student};let indexOfElement=index">
                             <div class="c-list__grid">
                                 <div class="c-flag c-place u-text--light u-bg-- u-bg--transparent">
                                     {{students_registered.indexOf(member)+1}}</div>
@@ -73,9 +76,12 @@
                                 </div>
                             </div>
                         </li>
+                        <li style="justify-content: center; display: flex;">
+                            <pagination-controls id="update-student-paginate" [maxSize]="5" [directionLinks]="true" (pageChange)="page_update_student = $event"></pagination-controls>
+                          </li>
                     </ul>
                 </div>
             </div>
-        <app-add-student [teamid]='teamid' [students_registered]='students_registered' (addStudentData)="AddStudent($event)"></app-add-student>
+        <app-add-student [teamid]='teamid' [students_registered]='students_registered' (removeStudentAllData)="RemoveAllStudent($event)" (addStudentAllData)="AddStudentAll($event)" (addStudentData)="AddStudent($event)"></app-add-student>
     </div>
 </div>
