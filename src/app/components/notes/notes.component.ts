@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,10 +14,20 @@ export class NotesComponent implements OnInit {
 
   loading: boolean = false;
   chats: Array<MicrosoftGraph.ChatMessage> = [];
+  page: number = 1;
 
-  constructor(private authService: AuthService, private router: Router, private graphService: GraphService) { 
+  @ViewChild('notes', { read: ElementRef, static:false }) notes!: ElementRef;
+  
+  get isStudent(): boolean {
+    return this.authService.isStudent;
+  }
+
+  constructor(private el: ElementRef, private authService: AuthService, private router: Router, private graphService: GraphService) { 
     if(this.router.getCurrentNavigation()?.extras.state){
       this.chats = this.router.getCurrentNavigation()!.extras!.state!.chats;
+      setTimeout(() => {
+        this.notes.nativeElement.classList.remove('animate-text')
+      }, 500);
       console.log(this.chats)
     }   
     else
@@ -25,5 +35,15 @@ export class NotesComponent implements OnInit {
   }
 
   ngOnInit(): void { }
+
+  nextPage(event: any) {
+    this.notes.nativeElement.classList.add('animate-text')
+    
+    setTimeout(() => {
+      this.notes.nativeElement.classList.remove('animate-text')
+      this.page = event;
+    }, 500);
+
+  }
 
 }

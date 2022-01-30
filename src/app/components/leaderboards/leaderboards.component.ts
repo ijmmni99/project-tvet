@@ -27,10 +27,13 @@ export class LeaderboardsComponent implements OnInit {
   logStudentScore: number = 0;
   logStudentChats: Array<MicrosoftGraph.ChatMessage> = [];
   channel: Channel = new Channel();
+  imgReady: boolean = false;
 
   myCurrentDate: Date;
   myPastDate: Date;
   meeting: MicrosoftGraph.ChatMessage = {};
+
+  dummyImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"
 
   get authenticated(): boolean {
     return this.authService.authenticated;
@@ -49,7 +52,7 @@ export class LeaderboardsComponent implements OnInit {
     if (this.router.getCurrentNavigation()?.extras.state) {
       this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
       this.meeting = this.router.getCurrentNavigation()!.extras!.state!.meeting;
-      console.log(this.channel)
+      
       this.setData(this.channel, this.meeting);
     }
     else
@@ -125,7 +128,6 @@ export class LeaderboardsComponent implements OnInit {
   }
 
   getSantizeUrl(imgBlob: Blob) {
-
     if (!imgBlob) {
       return null;
     }

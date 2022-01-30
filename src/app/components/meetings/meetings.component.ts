@@ -26,6 +26,8 @@ export class MeetingsComponent implements OnInit {
   myCurrentDate2: Date;
   myPastDate2: Date;
 
+  dummyImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"
+
   get isStudent(): boolean {
     return this.authService.isStudent;
   }
@@ -50,6 +52,9 @@ export class MeetingsComponent implements OnInit {
     if(this.router.getCurrentNavigation()?.extras.state){
       this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
       this.setData(this.channel,this.myPastDate, true);
+      
+      this.channel.imgUrl = this.dummyImg;
+
       this.getSantizeUrl(this.channel.teamsID).then(meta => {
         this.channel.imgUrl = meta;
       });

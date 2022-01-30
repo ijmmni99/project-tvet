@@ -1,16 +1,20 @@
 <app-spinner *ngIf="loading"></app-spinner>
-<div class="l-grid-col">
-  <div class="c-card">
-    <div class="c-card__body">
-    <div class="animatezoom l-grid-child" *ngFor="let c of chats">
-      
-          <div class="u-text--center" id="winner">
-            <div class="u-text-small u-text--medium u-mb--16">{{c.from?.user?.displayName}}</div>
-              <h3 class="u-mt--16">{{c.createdDateTime | date: 'mediumDate'}}</h3>
-              <span class="u-text--teal u-text--small">{{c.body?.content}}</span>
-          </div>
-        </div>
-      </div>
+<div class="l-grid-col" style="display: flex; justify-content: center; ">
+
+  <span *ngIf="!isStudent" class="sheet textarea" role="textbox" spellcheck="false" contenteditable="true">
+    <div *ngFor="let c of chats">
+      <br />{{c.from?.user?.displayName}}<br /> <div class="u-text--teal">{{c.createdDateTime | date: 'mediumDate'}}</div><br /><br />
+      {{c.body?.content}} <br />
+    </div>
+  </span>
+
+  <span *ngIf="isStudent" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
+    <br /><b>{{chats[0].from?.user?.displayName}}</b><br /><div class="u-text--teal">{{chats[0].createdDateTime | date: 'mediumDate'}}</div><br />
+    <div *ngFor="let c of chats | paginate: {id: 'chatsPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
+      {{indexOfElement+1}}. {{c.body?.content}} <br /><br />
     </div>
     
+  </span>
+  <pagination-controls id="chatsPaginate" class="hide-page-numbers" [maxSize]="5" [directionLinks]="true" (pageChange)="nextPage($event)"></pagination-controls>
+
 </div>

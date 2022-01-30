@@ -25,7 +25,7 @@
           <div ngAnimatedBorderWrapper>
             <div ngAnimatedBorder [abBackgroundColor]="'#333'" [abBorderWidth]="['51px']" [abBorderRadius]="['50%']"
               class="c-avatar c-avatar--lg img-animation">
-              <img class="c-avatar c-avatar--lg" [src]="getSantizeUrl(winner.imgUrl)" />
+              <img class="c-avatar c-avatar--lg" [src]="winner.imgUrl ? getSantizeUrl(winner.imgUrl) : dummyImg" />
             </div>
           </div>
           <h3 class="u-mt--16">{{winner.name}}</h3>
