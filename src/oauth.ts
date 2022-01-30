@@ -18,6 +18,7 @@ export const OAuthSettings = {
       "TeamSettings.Read.All",
       "TeamSettings.ReadWrite.All",
       "Group.ReadWrite.All",
-      "Directory.ReadWrite.All"
+      "Directory.ReadWrite.All",
+      "Sites.Read.All"
     ],
   };

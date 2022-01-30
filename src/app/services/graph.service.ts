@@ -8,6 +8,7 @@ import { Users } from '../models/users';
 import { DatePipe } from '@angular/common';
 import { Channel } from '../models/channel';
 import { HttpClient } from '@angular/common/http';
+import { element } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ import { HttpClient } from '@angular/common/http';
 export class GraphService {
 
   pipe = new DatePipe('en-US');
+  recording: string = '';
+
   private graphClient: Client;
   constructor(
     private authService: AuthService,
@@ -214,6 +217,15 @@ export class GraphService {
       }
       while(loop == true)
       
+      let recordings: any[] | undefined = data.filter(element => element.messageType == "unknownFutureValue")
+
+      let recording = null;
+
+      if(recordings.filter(element => element.eventDetail['@odata.type'] == '#microsoft.graph.callRecordingEventMessageDetail').length > 0)
+         recording = recordings.find(element => element.eventDetail.callRecordingUrl != null && element.eventDetail.callRecordingStatus == 'success').eventDetail.callRecordingUrl;
+
+      this.recording = recording;
+      
       // const dateNow = new Date();
       // const dateNowMinusEightHours = new Date(new Date(dateNow).getDate() - 1000 * 60 * 60 * 8)
       // console.log(dateNow)
@@ -252,6 +264,7 @@ export class GraphService {
 
       chats = chats.sort((a, b) => b.messageCount.length - a.messageCount.length);
 
+      console.log(chats)
       chats[0].studentType = 'Achiever';
       
       this.getPhoto(chats).then(_ => {
