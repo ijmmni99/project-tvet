@@ -79,7 +79,6 @@ export class UpdateChannelComponent implements OnInit {
   OnUpdate() {
     this.service.updateChannel(this.service.register_form.value, this.students_registered).subscribe(data => {
       if(data.ok) {
-        console.log(data)
         this.alertService.addSuccess('Successfully Updated');
         this.router.navigate(['']);
       }
@@ -89,10 +88,16 @@ export class UpdateChannelComponent implements OnInit {
     })
   }
 
-  OnNext(){
-  }
-
-  OnSubmit() {
+  OnDelete() {
+    this.service.deleteChannel(this.channel.channelID).subscribe(data => {
+      if(data.ok){
+        this.alertService.addSuccess('Successfully Delete');
+        this.router.navigate(['']);
+      }
+      else {
+        this.alertService.addError(data.statusText);
+      }
+    })
   }
 
   getSantizeUrl(imgBlob : Blob) {

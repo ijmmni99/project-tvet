@@ -1,10 +1,10 @@
 <app-spinner *ngIf="loading"></app-spinner>
 <div class="l-grid-col" style="display: flex; justify-content: center; ">
 
-  <span *ngIf="!isStudent" class="sheet textarea" role="textbox" spellcheck="false" contenteditable="true">
-    <div *ngFor="let c of chats">
-      <br />{{c.from?.user?.displayName}}<br /> <div class="u-text--teal">{{c.createdDateTime | date: 'mediumDate'}}</div><br /><br />
-      {{c.body?.content}} <br />
+  <span *ngIf="!isStudent" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
+    <div *ngFor="let c of chats| paginate: {id: 'chatsPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
+      <br />{{indexOfElement+1}}. {{c.from?.user?.displayName}}<br /> <div class="u-text--teal">{{c.createdDateTime | date: 'medium' }}</div><br />
+       {{c.body?.content}} <br />
     </div>
   </span>
 
@@ -15,6 +15,11 @@
     </div>
     
   </span>
-  <pagination-controls id="chatsPaginate" class="hide-page-numbers" [maxSize]="5" [directionLinks]="true" (pageChange)="nextPage($event)"></pagination-controls>
+  <div class="u-text--center">
+    <button class="c-button btn-background u-text--teal u-text--small" (click)="toggleBackground()">Background Style</button>
+    <pagination-controls id="chatsPaginate" class="hide-page-numbers" [maxSize]="5" [directionLinks]="true" (pageChange)="nextPage($event)"></pagination-controls>
+    
+  </div>
+  
 
 </div>

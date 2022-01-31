@@ -22,13 +22,13 @@ export class NotesComponent implements OnInit {
     return this.authService.isStudent;
   }
 
-  constructor(private el: ElementRef, private authService: AuthService, private router: Router, private graphService: GraphService) { 
+  constructor(private authService: AuthService, private router: Router, private graphService: GraphService) { 
     if(this.router.getCurrentNavigation()?.extras.state){
       this.chats = this.router.getCurrentNavigation()!.extras!.state!.chats;
+      this.chats = this.chats.sort((b, a) => new Date(b.createdDateTime!).getTime() - new Date(a.createdDateTime!).getTime());
       setTimeout(() => {
         this.notes.nativeElement.classList.remove('animate-text')
       }, 500);
-      console.log(this.chats)
     }   
     else
       this.router.navigate(['']);
@@ -44,6 +44,17 @@ export class NotesComponent implements OnInit {
       this.page = event;
     }, 500);
 
+  }
+
+  toggleBackground() {
+    if(this.notes.nativeElement.classList.contains('sheet')){
+      this.notes.nativeElement.classList.remove('sheet');
+      this.notes.nativeElement.classList.add('all-white');
+    }
+    else {
+      this.notes.nativeElement.classList.add('sheet');
+      this.notes.nativeElement.classList.remove('all-white');
+    }
   }
 
 }

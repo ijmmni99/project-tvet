@@ -34,8 +34,7 @@ export class GraphService {
             done(reason, null);
           });
 
-        if (token)
-        {
+        if (token) {
           done(null, token);
         } else {
           done("Could not get an access token", null);
@@ -44,16 +43,25 @@ export class GraphService {
     });
   }
 
-  async getPhoto(members: Users[]){
+  async getPhoto(members: Users[]) {
     try {
 
-      members.forEach(async (element) =>  {
-        let result = await this.graphClient
-        .api(`/users/${element.studentId}/photo/$value`)
-        .get();
+      members.forEach(async (element) => {
 
-        console.log(result)
-        element.imgUrl = result
+        try {
+          let result = await this.graphClient
+            .api(`/users/${element.studentId}/photo/$value`)
+            .get();
+
+          element.imgUrl = result
+        }
+        catch (error) {
+          this.http.get('/assets/no-img.png', { responseType: 'blob' })
+            .toPromise().then(_ => {
+              element.imgUrl = _
+            });
+        }
+
       })
 
       return members;
@@ -65,54 +73,50 @@ export class GraphService {
     return members;
   }
 
-  async getTeamPhoto(teamsID: string){
+  async getTeamPhoto(teamsID: string) {
     try {
       const token = await this.authService.getAccessToken()
-          .catch((reason) => {
-            this.alertsService.addError('Failed : ' + reason);
-          });
+        .catch((reason) => {
+          this.alertsService.addError('Failed : ' + reason);
+        });
 
-        if (token)
-        {
-          let response = await this.http.get(`https://graph.microsoft.com/beta/teams/${teamsID}/photo/$value`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
+      if (token) {
+        let response = await this.http.get(`https://graph.microsoft.com/beta/teams/${teamsID}/photo/$value`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
           },
           responseType: 'blob'
-          }).toPromise().then(response => {
-            console.log(response)
-            return response;
-          })
+        }).toPromise().then(response => {
+          return response;
+        })
 
-          if(response) {
-            return response
-          }
-          else
-            return null
-          
-
-        } else {
-          this.alertsService.addError('Failed : ');
-          return null
+        if (response) {
+          return response
         }
+        else
+          return null
+
+
+      } else {
+        this.alertsService.addError('Failed : ');
+        return null
+      }
       //return result;
 
     } catch (error) {
       this.alertsService.addError('Failed : ' + error);
       return null
-      
+
     }
   }
 
   async getListMembers(teamid: any) {
     let members: Array<Users> = [];
 
-    try{
+    try {
       let result = await this.graphClient
-      .api(`/teams/${teamid}/members`)
-      .get();
-
-      console.log(result)
+        .api(`/teams/${teamid}/members`)
+        .get();
 
       result.value.forEach((element: MicrosoftGraph.AadUserConversationMember) => {
         members.push({
@@ -139,40 +143,39 @@ export class GraphService {
   async getListMeeting(channel: Channel, startDate: Date, all: boolean) {
     let data: Array<MicrosoftGraph.ChatMessage> = [];
     try {
-      
+
       let result: any;
-      
-      if(all){
+
+      if (all) {
         result = await this.graphClient
-        .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/delta`)
-        .get();
+          .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/delta`)
+          .get();
       }
       else {
         result = await this.graphClient
-        .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${startDate.toISOString()}`)
-        .get();
+          .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${startDate.toISOString()}`)
+          .get();
       }
-      
-
-      console.log(result)
 
       let loop: boolean = true;
       data = result.value;
-      do
-      {
-        if(result['@odata.nextLink'] == undefined)
+      do {
+        if (result['@odata.nextLink'] == undefined)
           loop = false;
-        else
-        {
+        else {
           result = await this.graphClient.api(result['@odata.nextLink']).get();
           console.log(result)
           data = data.concat(result.value)
         }
       }
-      while(loop == true)
+      while (loop == true)
 
-      data = data.filter(element => element.messageType == "unknownFutureValue");
-      
+      let meeting_data: any[] | undefined = data.filter(element => element.messageType == "unknownFutureValue");
+
+      meeting_data = meeting_data.filter(element => element.eventDetail['@odata.type'] == "#microsoft.graph.callStartedEventMessageDetail")
+
+      data = meeting_data;
+
       return data;
 
     } catch (error) {
@@ -189,43 +192,41 @@ export class GraphService {
     var myPastDate = new Date(myCurrentDate);
     myPastDate.setDate(myPastDate.getDate() - 14);
 
-    try {  
-        // let result = await this.graphClient
-        // .api(`/teams/${id}/channels/${channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${myPastDate.toISOString()}`)
-        // .get();
+    try {
+      // let result = await this.graphClient
+      // .api(`/teams/${id}/channels/${channelID}/messages/delta`).filter(`lastModifiedDateTime gt ${myPastDate.toISOString()}`)
+      // .get();
 
-        let result = await this.graphClient
+      let result = await this.graphClient
         .api(`/teams/${channel.teamsID}/channels/${channel.channelID}/messages/${meetingID}/replies`)
         .get();
 
-        //let test =  await this.graphClient.api(`teams/${id}/channels/${channelID}/messages/1638961389492/replies`).get()
+      //let test =  await this.graphClient.api(`teams/${id}/channels/${channelID}/messages/1638961389492/replies`).get()
 
-        //console.log(test);
-        
+      //console.log(test);
+
 
       let loop: boolean = true;
       let data: Array<MicrosoftGraph.ChatMessage> = result.value;
-      do
-      {
-        if(result['@odata.nextLink'] == undefined)
+      do {
+        if (result['@odata.nextLink'] == undefined)
           loop = false;
-        else
-        {
+        else {
           result = await this.graphClient.api(result['@odata.nextLink']).get();
           data = data.concat(result.value)
         }
       }
-      while(loop == true)
-      
+      while (loop == true)
+
       let recordings: any[] | undefined = data.filter(element => element.messageType == "unknownFutureValue")
 
       let recording = null;
 
-      if(recordings.filter(element => element.eventDetail['@odata.type'] == '#microsoft.graph.callRecordingEventMessageDetail').length > 0)
-         recording = recordings.find(element => element.eventDetail.callRecordingUrl != null && element.eventDetail.callRecordingStatus == 'success').eventDetail.callRecordingUrl;
+      if (recordings.filter(element => element.eventDetail['@odata.type'] == '#microsoft.graph.callRecordingEventMessageDetail').length > 0)
+        recording = recordings.find(element => element.eventDetail.callRecordingUrl != null && element.eventDetail.callRecordingStatus == 'success').eventDetail.callRecordingUrl;
 
       this.recording = recording;
-      
+
       // const dateNow = new Date();
       // const dateNowMinusEightHours = new Date(new Date(dateNow).getDate() - 1000 * 60 * 60 * 8)
       // console.log(dateNow)
@@ -237,8 +238,8 @@ export class GraphService {
 
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
 
-        if(!chats.find(x => x.studentId == element.from?.user?.id)){
-            chats.push({
+        if (!chats.find(x => x.studentId == element.from?.user?.id)) {
+          chats.push({
             studentId: element.from?.user?.id,
             name: element.from?.user?.displayName,
             messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id),
@@ -250,23 +251,22 @@ export class GraphService {
       });
 
       channel.students!.forEach(element => {
-        if(!chats.find(x => x.studentId == element.studentId)) {
+        if (!chats.find(x => x.studentId == element.studentId)) {
           chats.push({
-              studentId: element.studentId,
-              name: element.name,
-              messageCount: data.filter(y => y.from?.user?.id == element.studentId),
-              messageAskCount: data.filter(y => y.from?.user?.id == element.studentId&& y.body?.content?.includes('?')).length,
-              studentType: data.filter(y => y.from?.user?.id == element.studentId && y.body?.content?.includes('?')).length > 20 ? 'Explorer' : 'Normal',
-              imgUrl: new Blob()
+            studentId: element.studentId,
+            name: element.name,
+            messageCount: data.filter(y => y.from?.user?.id == element.studentId),
+            messageAskCount: data.filter(y => y.from?.user?.id == element.studentId && y.body?.content?.includes('?')).length,
+            studentType: data.filter(y => y.from?.user?.id == element.studentId && y.body?.content?.includes('?')).length > 20 ? 'Explorer' : 'Normal',
+            imgUrl: new Blob()
           })
         }
       });
 
       chats = chats.sort((a, b) => b.messageCount.length - a.messageCount.length);
 
-      console.log(chats)
       chats[0].studentType = 'Achiever';
-      
+
       this.getPhoto(chats).then(_ => {
         return _;
       });
@@ -276,7 +276,7 @@ export class GraphService {
       this.alertsService.addError('Could not get List Channel', JSON.stringify(error, null, 2));
 
     }
-    
+
     return chats;
   }
 }

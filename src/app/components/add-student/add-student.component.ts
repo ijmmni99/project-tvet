@@ -21,7 +21,7 @@ export class AddStudentComponent implements OnInit {
   @Output('addStudentData') addStudentData = new EventEmitter<any>();
   @Output('removeStudentAllData') removeStudentAllData = new EventEmitter<any>();
   @Output('addStudentAllData') addStudentAllData = new EventEmitter<Users[]>();
- 
+
   constructor(private graphService: GraphService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {

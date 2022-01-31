@@ -14,7 +14,7 @@ import { GraphService } from 'src/app/services/graph.service';
 export class ChannelsComponent implements OnInit {
 
   channels: Channel[] | null = [];
-  dummyImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"
+  dummyImg = "/assets/no-img.png"
   loading: boolean = false;
   
   constructor(private router: Router, private sanitizer: DomSanitizer, private authService: AuthService, private channelService: ChannelRegisterServiceService, private graphService: GraphService) { 

@@ -113,7 +113,7 @@ export class ChannelRegisterServiceService {
   }
 
   deleteChannel(id: string) {
-    return this.httpClient.delete(`${this.API_SERVER}/channel/${id}/delete`);
+    return this.httpClient.delete(`${this.API_SERVER}/channel/${encodeURIComponent(id)}`, {observe: 'response'});
   }
 
 }

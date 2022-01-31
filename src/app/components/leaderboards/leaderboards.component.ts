@@ -29,11 +29,11 @@ export class LeaderboardsComponent implements OnInit {
   channel: Channel = new Channel();
   imgReady: boolean = false;
 
+  dummyImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"
+
   myCurrentDate: Date;
   myPastDate: Date;
   meeting: MicrosoftGraph.ChatMessage = {};
-
-  dummyImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"
 
   get authenticated(): boolean {
     return this.authService.authenticated;
@@ -135,6 +135,10 @@ export class LeaderboardsComponent implements OnInit {
     const url = window.URL || window.webkitURL;
     let imgurl = url.createObjectURL(imgBlob)
     return this.sanitizer.bypassSecurityTrustUrl(imgurl);
+  }
+
+  onImgError(event: any) {
+    event.target.src = this.dummyImg;
   }
 
   

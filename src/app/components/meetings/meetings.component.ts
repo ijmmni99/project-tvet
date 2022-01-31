@@ -26,7 +26,7 @@ export class MeetingsComponent implements OnInit {
   myCurrentDate2: Date;
   myPastDate2: Date;
 
-  dummyImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"
+  dummyImg = "/assets/no-img.png"
 
   get isStudent(): boolean {
     return this.authService.isStudent;
@@ -70,6 +70,7 @@ export class MeetingsComponent implements OnInit {
     this.loading = true;
     this.graphService.getListMeeting(channel, startDate, all).then((data: Array<MicrosoftGraph.ChatMessage>) => {
       this.meetings = data;
+      console.log(this.meetings)
     }).then( _ => {
       this.loading = false;
     })
