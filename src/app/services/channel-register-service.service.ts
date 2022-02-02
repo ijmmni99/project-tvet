@@ -90,6 +90,7 @@ export class ChannelRegisterServiceService {
   registerChannel(channel: Channel, members: Users[]) {
 
     this.lecturer.teacherId = this.authService.authUser.localAccountId;
+    this.lecturer.name = this.authService.authUser.username;
     channel.lecturerID = this.lecturer;
     channel.students = members;
 
@@ -106,6 +107,7 @@ export class ChannelRegisterServiceService {
 
   updateChannel(channel: Channel, members: Users[]) {
     this.lecturer.teacherId = this.authService.authUser.localAccountId;
+    this.lecturer.name = this.authService.authUser.username;
     channel.lecturerID = this.lecturer;
     channel.students = members;
 

@@ -239,12 +239,15 @@ export class GraphService {
       data.forEach((element: MicrosoftGraph.ChatMessage) => {
 
         if (!chats.find(x => x.studentId == element.from?.user?.id)) {
+          
+          let studentType = this.StudentType(data, element.from?.user?.id);
+
           chats.push({
             studentId: element.from?.user?.id,
             name: element.from?.user?.displayName,
             messageCount: data.filter(y => y.from?.user?.id == element.from?.user?.id),
             messageAskCount: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length,
-            studentType: data.filter(y => y.from?.user?.id == element.from?.user?.id && y.body?.content?.includes('?')).length > 20 ? 'Explorer' : 'Normal',
+            studentType: studentType,
             imgUrl: new Blob()
           });
         }
@@ -252,12 +255,15 @@ export class GraphService {
 
       channel.students!.forEach(element => {
         if (!chats.find(x => x.studentId == element.studentId)) {
+
+          let studentType = this.StudentType(data, element.studentId);
+
           chats.push({
             studentId: element.studentId,
             name: element.name,
             messageCount: data.filter(y => y.from?.user?.id == element.studentId),
             messageAskCount: data.filter(y => y.from?.user?.id == element.studentId && y.body?.content?.includes('?')).length,
-            studentType: data.filter(y => y.from?.user?.id == element.studentId && y.body?.content?.includes('?')).length > 20 ? 'Explorer' : 'Normal',
+            studentType: studentType,
             imgUrl: new Blob()
           })
         }
@@ -278,5 +284,18 @@ export class GraphService {
     }
 
     return chats;
+  }
+
+  StudentType(data: MicrosoftGraph.ChatMessage[], element: MicrosoftGraph.NullableOption<string> | undefined) {
+     
+    let studentType: string = 'Normal';
+
+    if(data.filter(y => y.from?.user?.id == element && y.body?.content?.includes('?')).length > 5)
+      studentType = 'Explorer';
+
+    if(data.filter(y => y.from?.user?.id == element && y.body?.content?.includes('emoticon')).length > 5)
+      studentType = 'Comedy';
+    
+    return studentType;
   }
 }

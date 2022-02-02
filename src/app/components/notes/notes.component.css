@@ -2,11 +2,13 @@
     background-color: #fff;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='30' width='100%'><circle r='10' cx='20' cy='13' fill='%23888' /><line x1='80' x2='80' y1='0' y2='30' stroke='%23f00' /><line x1='0' x2='100%'  y1='28' y2='28' stroke='%2300f'/></svg>");
     background-repeat: repeat-y;
+    padding: 0 20px 0 100px;
   }
 
 .all-white {
   background-color: #fff;
   background-repeat: repeat-y;
+  padding: 0 50px 0 50px;
 }
 
 .btn-background {
@@ -21,13 +23,12 @@
     line-height: 30px;
     min-height: 80vh;
     color: var(--dark);
-    padding: 0 20px 0 100px;
     width: 680px;
   }
 
   .animate-text {
     transform: translateX(0%);
-	animation: slide-in-anim 0.5s ease-in backwards;
+	  animation: slide-in-anim 0.5s ease-in backwards;
   }
 
   .hide-page-numbers /deep/ .ngx-pagination li:not(.pagination-previous):not(.pagination-next) {
