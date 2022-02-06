@@ -90,7 +90,7 @@ export class LeaderboardsComponent implements OnInit {
     this.loading = true;
 
     this.router.navigateByUrl('notes', {
-      state: { chats: this.logStudentChats }
+      state: { chats: this.logStudentChats, meeting: this.meeting }
     }).then(_ => {
       this.loading = false;
     });

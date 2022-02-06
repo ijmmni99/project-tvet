@@ -1,5 +1,5 @@
 <app-spinner *ngIf="loading"></app-spinner>
-<div class="l-grid-col" style="display: flex; justify-content: center; ">
+<div class="l-grid-col" *ngIf="!loading" style="display: flex; justify-content: center; ">
 
   <span *ngIf="!isStudent" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
     <div *ngFor="let c of chats| paginate: {id: 'chatsPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
@@ -8,18 +8,31 @@
     </div>
   </span>
 
-  <span *ngIf="isStudent" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
+  <span id="notes" *ngIf="isStudent" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
     <br /><b>{{chats[0].from?.user?.displayName}}</b><br /><div class="u-text--teal">{{chats[0].createdDateTime | date: 'mediumDate'}}</div><br />
-    <div *ngFor="let c of chats | paginate: {id: 'chatsPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
-      {{indexOfElement+1}}. {{c.body?.content}} <br /><br />
+    <div *ngFor="let c of mergeMessage | paginate: {id: 'chatsPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
+      {{indexOfElement+1}}. {{c.body?.content}} <br />
+
+      <div *ngIf="c.note" class="u-text--orange u-text--small">* {{c.note}}</div>
+      <div class="u-text--right btn-edit-ico" *ngIf="!print"><div class="animatezoom breathing-button" (click)="initializeMessage(c, indexOfElement)" matTooltip="Add Notes"><img class="" width="25px" src="assets/edit.png"/></div></div><br />
     </div>
     
   </span>
   <div class="u-text--center">
-    <button class="c-button btn-background u-text--teal u-text--small" (click)="toggleBackground()">Background Style</button>
-    <pagination-controls id="chatsPaginate" class="hide-page-numbers" [maxSize]="5" [directionLinks]="true" (pageChange)="nextPage($event)"></pagination-controls>
+    <form [formGroup]="noteService.note_form" *ngIf="messageSelected" class="form_note">
+      <div class="input-container ic1">
+        <input formControlName="note" id="note" class="input" type="text" placeholder=" " />
+        <div class="cut"></div>
+        <label for="note" class="placeholder">Add new note to note {{note_index}}</label>
+      </div>
+      <button [disabled]="noteService.note_form.invalid" type="submit"
+        class="c-button btn-add u-text--teal u-text--small" (click)="OnSubmit()">Add Note</button>
+      <button type="text" class="c-button btn-background u-text--teal u-text--small" (click)="OnCancel()">Cancel</button>
+      <hr class="solid">
+    </form>
     
+    <button class="c-button btn-add u-text--teal u-text--small" (click)="toggleBackground()">Background Style</button><br>
+    <button class="c-button btn-background u-text--teal u-text--small" (click)="openPDF()">Export PDF</button><br>
+    <pagination-controls id="chatsPaginate" class="hide-page-numbers" [maxSize]="5" [directionLinks]="true" (pageChange)="nextPage($event)"></pagination-controls>
   </div>
-  
-
 </div>

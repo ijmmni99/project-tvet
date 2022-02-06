@@ -70,7 +70,7 @@ export class MeetingsComponent implements OnInit {
     this.loading = true;
     this.graphService.getListMeeting(channel, startDate, all).then((data: Array<MicrosoftGraph.ChatMessage>) => {
       this.meetings = data;
-      console.log(this.meetings)
+
     }).then( _ => {
       this.loading = false;
     })
