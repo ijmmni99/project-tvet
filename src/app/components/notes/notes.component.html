@@ -8,13 +8,23 @@
     </div>
   </span>
 
-  <span id="notes" *ngIf="isStudent" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
+  <span *ngIf="isStudent && !print" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
     <br /><b>{{chats[0].from?.user?.displayName}}</b><br /><div class="u-text--teal">{{chats[0].createdDateTime | date: 'mediumDate'}}</div><br />
     <div *ngFor="let c of mergeMessage | paginate: {id: 'chatsPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
       {{indexOfElement+1}}. {{c.body?.content}} <br />
 
       <div *ngIf="c.note" class="u-text--orange u-text--small">* {{c.note}}</div>
       <div class="u-text--right btn-edit-ico" *ngIf="!print"><div class="animatezoom breathing-button" (click)="initializeMessage(c, indexOfElement)" matTooltip="Add Notes"><img class="" width="25px" src="assets/edit.png"/></div></div><br />
+    </div>
+    
+  </span>
+
+  <span id="notes" *ngIf="isStudent && print" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
+    <br /><b>{{chats[0].from?.user?.displayName}}</b><br /><div class="u-text--teal">{{chats[0].createdDateTime | date: 'mediumDate'}}</div><br />
+    <div *ngFor="let c of mergeMessage;let indexOfElement=index" style="width: 540px;">
+      {{indexOfElement+1}}. {{c.body?.content}} <br />
+
+      <div *ngIf="c.note" class="u-text--orange u-text--small">* {{c.note}}</div><br />
     </div>
     
   </span>

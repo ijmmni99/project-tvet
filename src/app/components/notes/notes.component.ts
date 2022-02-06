@@ -165,20 +165,21 @@ export class NotesComponent implements OnInit {
     this.notes.nativeElement.classList.remove('sheet');
       this.notes.nativeElement.classList.add('all-white');
   
-      let DATA = document.getElementById('notes')!;
-        
-      html2canvas(DATA).then(canvas => {
-          
-          let fileWidth = 208;
-          let fileHeight = canvas.height * fileWidth / canvas.width;
-          
-          const FILEURI = canvas.toDataURL('image/png')
-          let PDF = new jsPDF('p', 'mm', 'a4');
-          let position = 0;
-          PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
-          
-          PDF.save(Date.now() + '_notes.pdf');
-      });
+      const element = document.getElementById('notes')!;
+
+      const doc = new jsPDF('p', 'pt', 'a4');
+
+      const div = element;
+      await doc.html(div, {
+        x: 40,
+        y: 20,
+        autoPaging: true,
+
+        callback: function (pdf) {
+
+        pdf.output('dataurlnewwindow');
+        },
+      }); 
       
       this.notes.nativeElement.classList.remove('all-white');
       this.notes.nativeElement.classList.add('sheet');
