@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Users } from 'src/app/models/users';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 import { AddStudentComponent } from '../add-student/add-student.component';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-channel-register',
@@ -20,7 +22,7 @@ export class ChannelRegisterComponent implements OnInit {
   
   @ViewChild(AddStudentComponent) add_student_child!: AddStudentComponent;
 
-  constructor(public service: ChannelRegisterServiceService, private sanitizer: DomSanitizer, private alertService: AlertsService) { }
+  constructor(public service: ChannelRegisterServiceService, private sanitizer: DomSanitizer, private alertService: AlertsService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -113,6 +115,19 @@ export class ChannelRegisterComponent implements OnInit {
     const url = window.URL || window.webkitURL;
     let imgurl = url.createObjectURL(imgBlob)
     return this.sanitizer.bypassSecurityTrustUrl(imgurl);
-}
+  }
+
+  raisedDialog() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: "Are you sure want to register the subject?"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.OnSubmit();
+      }
+    });
+  }
 
 }

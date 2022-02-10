@@ -10,6 +10,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -26,15 +27,18 @@ import { AddStudentComponent } from './components/add-student/add-student.compon
 import { MeetingsComponent } from './components/meetings/meetings.component';
 import { NotesComponent } from './components/notes/notes.component';
 import { UpdateChannelComponent } from './components/update-channel/update-channel.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 let msalInstance: IPublicClientApplication | undefined = undefined;
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   msalInstance = msalInstance ?? new PublicClientApplication({
     auth: {
+      authority: OAuthSettings.authority,
       clientId: OAuthSettings.appId,
       redirectUri: OAuthSettings.redirectUri,
       postLogoutRedirectUri: OAuthSettings.redirectUri,
+      knownAuthorities: [OAuthSettings.authority]
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
@@ -59,7 +63,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     AddStudentComponent,
     MeetingsComponent,
     NotesComponent,
-    UpdateChannelComponent
+    UpdateChannelComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -74,11 +79,16 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatDialogModule,
     HttpClientModule
   ],
   providers: [ {
     provide: MSAL_INSTANCE,
     useFactory: MSALInstanceFactory
+  },
+  {
+    provide: MatDialogRef,
+    useValue: {}
   },
   MsalService],
   bootstrap: [AppComponent]

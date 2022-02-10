@@ -45,8 +45,27 @@
 
     <div class="c-card animatezoom" style="cursor: pointer;" (click)="directQuestions()" *ngIf="authenticated && !isStudent">
       <div class="c-card__body">
-        <div class="u-text--center" id="challenges">
-          <div class="u-text--primary u-text--primary u-mb--16">View Student Questions</div>
+        <div class="u-text--center" id="challenges" style="display: flex; flex-direction: column; ">
+          <div class="u-text--primary u-text--primary u-mb--16"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <style>
+              .slide-6 {
+                animation: slide-6 1s infinite alternate both cubic-bezier(1, -0.01, 0, 0.98);
+              }
+              @keyframes slide-6 {
+                100% {
+                  transform: translateX(2px)
+                }
+              }
+            </style>
+           
+            <path class="slide-6" fill="var(--teal)" fill-rule="evenodd" d="M13.155 16.834a.714.714 0 001.006-.091l3.564-4.277a.711.711 0 000-.932L14.16 7.257a.714.714 0 00-1.097.915l2.565 3.078H7.9a.75.75 0 000 1.5h7.73l-2.565 3.078a.714.714 0 00.091 1.006z" clip-rule="evenodd"/>
+          </svg>
+          View Student Questions</div>
+          <!-- <svg style="display: block; margin: auto" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="none"><style> @keyframes check {
+            to {
+              stroke-dashoffset: 0;
+            }
+          }</style><rect width="12" height="14" x="7" y="5" stroke="#0A0A30" stroke-width="1.5" rx="1"/><path stroke="#265BFF" stroke-linecap="round" stroke-width="1.5" d="M10 8.973h4m-4 3.64h2" style="animation:check 3s infinite cubic-bezier(.99,-.1,.01,1.02)" stroke-dashoffset="100" stroke-dasharray="100"/></svg> -->
           <span class="u-text--light u-text--small">Click here to view all student questions in this lecture meeting.</span>
         </div>
       </div>
@@ -83,7 +102,7 @@
               <div class="u-text--left u-text--small u-text--medium">Rank</div>
               <div class="u-text--left u-text--small u-text--medium">Name</div>
               <div class="u-text--right u-text--small u-text--medium">Questions</div>
-              <div class="u-text--right u-text--small u-text--medium">Points</div>
+              <div class="u-text--right u-text--small u-text--medium"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><style>@keyframes jello{0%,to{transform:scale3d(1,1,1)}30%{transform:scale3d(1.25,.75,1)}40%{transform:scale3d(.75,1.25,1)}50%{transform:scale3d(1.15,.85,1)}65%{transform:scale3d(.95,1.05,1)}75%{transform:scale3d(1.05,.95,1)}}</style><path stroke="#FDCB6E" stroke-width="1.5" d="M11.081 5.141c.347-.807 1.491-.807 1.838 0l1.274 2.97a1 1 0 00.828.601l3.218.295c.875.08 1.229 1.168.568 1.748l-2.43 2.13a1 1 0 00-.316.972l.714 3.152c.194.857-.732 1.53-1.487 1.08l-2.776-1.653a1 1 0 00-1.024 0l-2.776 1.653c-.755.45-1.681-.223-1.487-1.08l.715-3.152a1 1 0 00-.317-.973l-2.43-2.13c-.66-.579-.307-1.667.568-1.747l3.218-.295a1 1 0 00.828-.601l1.274-2.97z" style="animation:jello 1s both infinite cubic-bezier(.69,.34,.09,.6);transform-origin:center"/></svg>Points</div>
             </div>
           </li>
           <li class="c-list__item"

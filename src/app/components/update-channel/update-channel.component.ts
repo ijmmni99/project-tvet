@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Channel } from 'src/app/models/channel';
@@ -7,6 +8,7 @@ import { AlertsService } from 'src/app/services/alerts.service';
 import { ChannelRegisterServiceService } from 'src/app/services/channel-register-service.service';
 import { GraphService } from 'src/app/services/graph.service';
 import { AddStudentComponent } from '../add-student/add-student.component';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-update-channel',
@@ -24,7 +26,7 @@ export class UpdateChannelComponent implements OnInit {
 
   @ViewChild(AddStudentComponent) add_student_child!: AddStudentComponent;
   
-  constructor(public service: ChannelRegisterServiceService, private alertService:AlertsService, private graphService: GraphService, private router: Router,private sanitizer: DomSanitizer) {
+  constructor(public service: ChannelRegisterServiceService, private alertService:AlertsService, private graphService: GraphService, private router: Router,private sanitizer: DomSanitizer, public dialog: MatDialog) {
     if(this.router.getCurrentNavigation()?.extras.state){
       this.teamid = this.router.getCurrentNavigation()!.extras!.state!.channel!.teamsID;
       this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
@@ -109,6 +111,19 @@ export class UpdateChannelComponent implements OnInit {
     const url = window.URL || window.webkitURL;
     let imgurl = url.createObjectURL(imgBlob)
     return this.sanitizer.bypassSecurityTrustUrl(imgurl);
-}
+  }
+
+  raisedDialog() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: "Are you sure want to delete the subject?"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.OnDelete();
+      }
+    });
+  }
 
 }

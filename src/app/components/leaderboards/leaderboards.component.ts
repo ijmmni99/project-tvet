@@ -67,9 +67,9 @@ export class LeaderboardsComponent implements OnInit {
       this.chats = data;
 
       if (this.authService.isStudent) {
-        this.logStudentIndex = this.chats.findIndex(element => element.studentId = this.authService.authUser.localAccountId);
-        this.logStudentScore = this.chats.find(element => element.studentId = this.authService.authUser.localAccountId)!.messageCount.length;
-        this.logStudentChats = this.chats.find(element => element.studentId = this.authService.authUser.localAccountId)!.messageCount;
+        this.logStudentIndex = this.chats.findIndex(element => element.studentId == this.authService.authUser.localAccountId);
+        this.logStudentScore = this.chats.find(element => element.studentId == this.authService.authUser.localAccountId)!.messageCount.length;
+        this.logStudentChats = this.chats.find(element => element.studentId == this.authService.authUser.localAccountId)!.messageCount;
       }
 
       if (this.chats.length > 0)

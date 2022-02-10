@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Confirmation</h1>
+<div mat-dialog-content>
+  <p>{{message}}</p>
+</div>
+<div mat-dialog-actions style="display: flex; flex-direction: row; justify-content: space-evenly;">
+  <button class="c-button u-text--orange u-text--small" style="background: var(--medium);"  (click)="onNoClick()">No</button>
+  <button class="c-button u-text--teal u-text--small" style="background: var(--medium);"  [mat-dialog-close]="true">Yes</button>
+</div>

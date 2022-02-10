@@ -1,5 +1,6 @@
 export const OAuthSettings = {
     appId: '66878c44-bc13-4ce5-a92e-fd52f0ffd7f3',
+    authority: 'https://login.microsoftonline.com/9f952c8b-5bd3-45e9-96ec-7f8b668f1537',
     redirectUri: 'http://localhost:4200',
     scopes: [
       "user.read",

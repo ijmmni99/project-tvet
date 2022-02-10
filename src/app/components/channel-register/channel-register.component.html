@@ -55,7 +55,7 @@
           </div>
           <button [disabled]="service.register_form_link.invalid || submitted" type="text"
             class="submit c-button--primary" (click)="OnNext()">Next</button>
-          <button *ngIf="submitted" type="text" class="submit c-button--primary" (click)="OnSubmit()">Submit</button>
+          <button *ngIf="submitted" type="text" class="submit c-button--primary" (click)="raisedDialog()">Submit</button>
         </form>
       </div>
     </div>
@@ -63,7 +63,7 @@
   <div>
     <div class="c-card animateslide" *ngIf='submitted'>
       <div class="c-card__header">
-        <h3>Current Student</h3><h3 class="u-text--teal" *ngIf="students.length > 0">{{students.length}} selected</h3>
+        <h3><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"><style>@keyframes slide{0%{transform:translateY(0) translateX(0)}to{transform:translateY(-1px) translateX(-2px)}}</style><circle cx="12" cy="6.245" r="2.5" stroke="var(--teal)" stroke-width="1.5" style="animation:slide 1s cubic-bezier(.83,-.07,0,1.04) both infinite alternate-reverse"/><ellipse cx="12" cy="13.926" stroke="var(--teal)" stroke-width="1.5" rx="5" ry="2.329"/></svg>Current Student</h3><h3 class="u-text--teal" *ngIf="students.length > 0">{{students.length}} selected</h3>
       </div>
       <div class="c-card__body">
         <div style="text-align: center;" *ngIf="students.length == 0">
