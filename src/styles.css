@@ -135,6 +135,25 @@ button, select {
   cursor: pointer;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 .mat-paginator {
   background-color: var(--color);
 }
@@ -148,7 +167,7 @@ button, select {
 }
 
 .eclipse-container {
-  position: absolute;bottom: 0; left: 0; width: 100%; height: 16.5vh;
+  position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
 }
 
 .animatezoom {

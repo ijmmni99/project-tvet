@@ -27,6 +27,7 @@ export class NotesComponent implements OnInit {
   note_index: number = 0;
   meeting: MicrosoftGraph.ChatMessage | undefined;
   mergeMessage: any;
+  recordingDateTime: any = null;
 
   @ViewChild('notes', { read: ElementRef, static:false }) notes!: ElementRef;
   
@@ -38,6 +39,7 @@ export class NotesComponent implements OnInit {
     if(this.router.getCurrentNavigation()?.extras.state){
       this.meeting = this.router.getCurrentNavigation()!.extras!.state!.meeting;
       this.chats = this.router.getCurrentNavigation()!.extras!.state!.chats;
+      this.recordingDateTime = this.router.getCurrentNavigation()!.extras!.state!.recordingDate;
       this.chats = this.chats.sort((b, a) => new Date(b.createdDateTime!).getTime() - new Date(a.createdDateTime!).getTime());
       
       let note: Note = new Note();
@@ -183,5 +185,23 @@ export class NotesComponent implements OnInit {
       
       this.notes.nativeElement.classList.remove('all-white');
       this.notes.nativeElement.classList.add('sheet');
+  }
+
+  getRecordingTime(chatTime: Date) {
+    let messageTime = new Date(chatTime);
+    let meetingTime = new Date(this.recordingDateTime);
+    let time  = +messageTime.getTime() - +meetingTime.getTime()
+    let duration = this.millisToMinutesAndSeconds(time);
+
+    return duration;
+  }
+
+  millisToMinutesAndSeconds(millis: any) {
+    let hours = Math.floor((millis / (1000 * 60 * 60)) % 24);
+    let minutes = Math.floor(millis / 60000);
+    let seconds = ((millis % 60000) / 1000).toFixed(0);
+    hours = (hours < 10) ? 0 + hours : hours;
+
+    return 'At ' + hours + ":" + minutes + ":" + (+seconds < 10 ? '0' : '') + seconds + ' in Recording';
   }
 }

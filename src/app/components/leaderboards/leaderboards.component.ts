@@ -16,7 +16,7 @@ import { AlertsService } from 'src/app/services/alerts.service';
 })
 export class LeaderboardsComponent implements OnInit {
 
-  recording: string = '';
+  recording: any = null;
   chats: Array<Users> = [];
   page: number = 1;
   channelChoose: boolean = false;
@@ -50,7 +50,7 @@ export class LeaderboardsComponent implements OnInit {
     if (this.router.getCurrentNavigation()?.extras.state) {
       this.channel = this.router.getCurrentNavigation()!.extras!.state!.channel;
       this.meeting = this.router.getCurrentNavigation()!.extras!.state!.meeting;
-      
+
       this.setData(this.channel, this.meeting);
     }
     else
@@ -90,7 +90,7 @@ export class LeaderboardsComponent implements OnInit {
     this.loading = true;
 
     this.router.navigateByUrl('notes', {
-      state: { chats: this.logStudentChats, meeting: this.meeting }
+      state: { chats: this.logStudentChats, meeting: this.meeting, recordingDate: this.graphService.recordingStartDate}
     }).then(_ => {
       this.loading = false;
     });

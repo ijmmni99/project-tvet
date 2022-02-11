@@ -17,7 +17,8 @@ import { element } from 'protractor';
 export class GraphService {
 
   pipe = new DatePipe('en-US');
-  recording: string = '';
+  recording: any = null;
+  recordingStartDate: any = null;
 
   private graphClient: Client;
   constructor(
@@ -221,10 +222,15 @@ export class GraphService {
       let recordings: any[] | undefined = data.filter(element => element.messageType == "unknownFutureValue")
 
       let recording = null;
+      let recordDate = null;
 
-      if (recordings.filter(element => element.eventDetail['@odata.type'] == '#microsoft.graph.callRecordingEventMessageDetail').length > 0)
-        recording = recordings.find(element => element.eventDetail.callRecordingUrl != null && element.eventDetail.callRecordingStatus == 'success').eventDetail.callRecordingUrl;
+      if (recordings.filter(element => element.eventDetail['@odata.type'] == '#microsoft.graph.callRecordingEventMessageDetail').length > 0){
+        recording = recordings.find(element => element.eventDetail.callRecordingUrl != null && element.eventDetail.callRecordingStatus == 'success');
+        recordDate = recordings.find(element => element.eventDetail.callRecordingStatus == 'initial').createdDateTime;
+      }
+        
 
+      this.recordingStartDate = recordDate;
       this.recording = recording;
 
       // const dateNow = new Date();

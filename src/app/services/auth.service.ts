@@ -23,7 +23,7 @@ export class AuthService {
     this.authUser = this.msalService.instance.getAllAccounts()[0]!;
     //6ykc6n
     if(this.authUser){
-      if(this.authUser.username.includes('student'))
+      if(this.authUser.username.includes('6ykc6n'))
         this.isStudent = true
       else
         this.isStudent = false;
@@ -49,7 +49,7 @@ export class AuthService {
       this.authenticated = true;
       this.authUser = result.account!;
       console.log(result)
-      if(this.authUser.username.includes('student'))
+      if(this.authUser.username.includes('6ykc6n'))
         this.isStudent = true
       else
         this.isStudent = false;
