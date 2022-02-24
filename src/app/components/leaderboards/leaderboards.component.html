@@ -52,7 +52,7 @@
             <path class="slide-6" fill="var(--teal)" fill-rule="evenodd" d="M13.155 16.834a.714.714 0 001.006-.091l3.564-4.277a.711.711 0 000-.932L14.16 7.257a.714.714 0 00-1.097.915l2.565 3.078H7.9a.75.75 0 000 1.5h7.73l-2.565 3.078a.714.714 0 00.091 1.006z" clip-rule="evenodd"/>
           </svg>
           View Chat Notes</div>
-          <span class="u-text--light u-text--small">Click here to view your notes/chats in this lecture meeting.</span>
+          <span class="u-text--color u-text--small">Click here to view your notes/chats in this lecture meeting.</span>
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
               stroke-dashoffset: 0;
             }
           }</style><rect width="12" height="14" x="7" y="5" stroke="#0A0A30" stroke-width="1.5" rx="1"/><path stroke="#265BFF" stroke-linecap="round" stroke-width="1.5" d="M10 8.973h4m-4 3.64h2" style="animation:check 3s infinite cubic-bezier(.99,-.1,.01,1.02)" stroke-dashoffset="100" stroke-dasharray="100"/></svg> -->
-          <span class="u-text--light u-text--small">Click here to view all student questions in this lecture meeting.</span>
+          <span class="u-text--color u-text--small">Click here to view all student questions in this lecture meeting.</span>
         </div>
       </div>
     </div>
@@ -129,7 +129,7 @@
               <div *ngIf="chats.indexOf(member)+1 == 3"
                 class="c-flag c-place u-text--dark u-bg--orange u-bg--transparent">{{chats.indexOf(member)+1}}</div>
               <div *ngIf="chats.indexOf(member)+1 != 1 && chats.indexOf(member)+1 != 2 && chats.indexOf(member)+1 != 3"
-                class="c-flag c-place u-bg--transparent">{{chats.indexOf(member)+1}}</div>
+                class="c-flag c-place u-text--color u-bg--transparent">{{chats.indexOf(member)+1}}</div>
               <div class="c-media">
                 <img class="c-avatar c-media__img" [src]="getSantizeUrl(member.imgUrl)" />
                 <div class="c-media__content">

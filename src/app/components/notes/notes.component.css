@@ -35,7 +35,7 @@ hr.solid {
     line-break: anywhere;
     line-height: 30px;
     min-height: 80vh;
-    color: var(--dark);
+    color: var(--darkest);
     width: 680px;
   }
 
@@ -156,11 +156,11 @@ hr.solid {
 }
 
 .input {
-  background-color: #303245;
+  background-color: var(--input-container);
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
-  color: #eee;
+  color: var(--color);
   font-size: 18px;
   height: 100%;
 }
@@ -207,10 +207,12 @@ hr.solid {
 }
 
 .input:focus ~ .placeholder {
-  color: #eee;
+  color: var(--color);
 }
 
 button:disabled,
 button[disabled]{
-  background-color: var(--darkest);
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }

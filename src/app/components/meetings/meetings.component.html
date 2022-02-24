@@ -45,7 +45,7 @@
             </li>
             <li class="c-list__item" *ngFor="let meeting of meetings | paginate: {id: 'leaderboardPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
               <div class="c-list__grid">
-                <div style="margin-top: 0.3rem; margin-left: 0.3rem;" class="c-place u-text--light u-bg-- u-bg--transparent">{{meetings.indexOf(meeting)+1}}</div>
+                <div style="margin-top: 0.3rem; margin-left: 0.3rem;" class="c-place u-text--color u-bg--transparent">{{meetings.indexOf(meeting)+1}}</div>
                 <div class="c-media">
                   <div class="">
                     <div class="c-media__title">{{meeting.createdDateTime | date: 'mediumDate'}}</div>

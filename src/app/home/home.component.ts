@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import {DOCUMENT, Location} from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user';
 import { GraphService } from '../services/graph.service';
@@ -25,8 +25,13 @@ export class HomeComponent implements OnInit {
   get isStudent(): boolean {
     return this.authService.isStudent
   }
+
+  isDarkMode: boolean = true;
+  private currentTheme = 'light';
   
-  constructor(public router: Router, private authService: AuthService, private location: Location, private alertService: AlertsService) { }
+  constructor(public router: Router, private authService: AuthService, private location: Location, private alertService: AlertsService
+    ,@Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2) { }
 
   ngOnInit() {
     // this.loading = true;
@@ -34,6 +39,11 @@ export class HomeComponent implements OnInit {
     //   this.authService.user = _;
     //   this.loading = false;
     // })
+
+    this.currentTheme = localStorage.getItem('activeTheme') || 'light';
+
+    this.isDarkMode = this.currentTheme == 'light' ? false : true;
+    this.renderer.setAttribute(this.document.body, 'data-theme', this.currentTheme);
   }
 
   async signIn(): Promise<void> {
@@ -62,5 +72,21 @@ export class HomeComponent implements OnInit {
 
   clickEvent() {
     this.showMyClass = this.showMyClass ? false : true;
+  }
+
+  switchMode() {
+    
+    if(this.isDarkMode){
+      this.currentTheme = 'light';
+      this.isDarkMode = false;
+    }
+    else{
+      this.currentTheme = 'dark';
+      this.isDarkMode = true;
+    }
+    
+    localStorage.setItem('activeTheme', this.currentTheme);
+    
+    this.renderer.setAttribute(this.document.body, 'data-theme', this.currentTheme);
   }
 }

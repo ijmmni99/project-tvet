@@ -11,5 +11,5 @@
   }
 
 .href_class {
-  margin-right: 10px; color: white;
+  margin-right: 10px; color: var(--color);
 }

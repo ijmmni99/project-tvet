@@ -11,7 +11,7 @@
   <span *ngIf="isStudent && !print" #notes class="sheet textarea animate-text" role="textbox" spellcheck="false" contenteditable="true">
     <br /><b>{{chats[0].from?.user?.displayName}}</b><br /><div class="u-text--teal">{{chats[0].createdDateTime | date: 'mediumDate'}}</div><br />
     <div *ngFor="let c of mergeMessage | paginate: {id: 'chatsPaginate', itemsPerPage: 5, currentPage: page};let indexOfElement=index">
-      <div class="u-text--primary" *ngIf="c.createdDateTime > recordingDateTime">{{getRecordingTime(c.createdDateTime)}}<br /></div>
+      <div class="u-text" style="color: #007bff;" *ngIf="c.createdDateTime > recordingDateTime">{{getRecordingTime(c.createdDateTime)}}<br /></div>
       {{indexOfElement+1}}. {{c.body?.content}} <br />
 
       <div *ngIf="c.note" class="u-text--orange u-text--small">* {{c.note}}</div>
@@ -43,7 +43,7 @@
     </form>
     
     <button class="c-button btn-add u-text--teal u-text--small" (click)="toggleBackground()">Background Style</button><br>
-    <button class="c-button btn-background u-text--teal u-text--small" (click)="openPDF()">Export PDF</button><br>
+    <button *ngIf="isStudent" class="c-button btn-background u-text--teal u-text--small" (click)="openPDF()">Export PDF</button><br>
     <pagination-controls id="chatsPaginate" class="hide-page-numbers" [maxSize]="5" [directionLinks]="true" (pageChange)="nextPage($event)"></pagination-controls>
   </div>
 </div>
